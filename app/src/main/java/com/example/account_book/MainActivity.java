@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
@@ -89,6 +89,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         switch (item.getItemId()){
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.action_new_journey:
+                Intent intent1 = new Intent(MainActivity.this, NewJourneyActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.action_summary:
+                Intent intent2 = new Intent(MainActivity.this, SummaryActivity.class);
+                startActivity(intent2);
                 break;
             default:
                 break;
