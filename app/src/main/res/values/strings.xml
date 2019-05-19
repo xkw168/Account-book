@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">记账本</string>
+
+    <string name="bt_confirm" translatable="false">确定</string>
+    <string name="bt_cancel">取消</string>
+
+    <string name="add_new_account_number">金额：</string>
+    <string name="add_new_account_createTime">时间：</string>
+    <string name="add_new_account_person">付款人：</string>
+    <string name="add_new_account_content">备注：</string>
+
+    <string-array name="person">
+        <item>xkw</item>
+        <item>强哥</item>
+        <item>齐姐姐</item>
+        <item>慧瑶</item>
+    </string-array>
+
+    <string name="action_search">搜索</string>
+
+    <string name="loading">加载中&#8230;</string>
+    <string name="load_more">上拉加载更多</string>
+    <string name="load_failed">无更多数据</string>
+</resources>
