@@ -1,19 +1,24 @@
 package com.example.account_book;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.account_book.util.DBHelper;
 import com.example.account_book.util.TimeUtils;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class AddAccountActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,6 +39,11 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     private TextInputEditText etContent;
     private Spinner spPerson;
 
+    /**
+     * variable
+     */
+    private List<String> peopleList = new LinkedList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +53,8 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("新增账单");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        loadData();
 
         etNumber = (TextInputEditText)findViewById(R.id.et_new_account_number);
         etContent = (TextInputEditText)findViewById(R.id.et_new_account_content);
@@ -54,6 +66,8 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         btSubmit.setOnClickListener(this);
 
         tvTime.setText(String.format("时间: %s", TimeUtils.now()));
+        ArrayAdapter<String> peopleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, peopleList);
+        spPerson.setAdapter(peopleAdapter);
     }
 
     @Override
@@ -104,5 +118,15 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadData() {
+        SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
+        int cnt = preferences.getInt("count", 0);
+        Log.e(TAG, "loadData: " + cnt);
+        for (int i = 0; i < cnt; i++){
+            peopleList.add(preferences.getString(String.format("person%s", i), ""));
+            Log.e(TAG, peopleList.get(i));
+        }
     }
 }

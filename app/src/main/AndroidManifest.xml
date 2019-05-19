@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NewJourneyActivity"></activity>
+        <activity
+            android:name=".NewJourneyActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".AddAccountActivity" />
         <activity android:name=".MainActivity">

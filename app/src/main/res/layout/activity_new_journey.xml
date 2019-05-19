@@ -6,4 +6,152 @@
     android:layout_height="match_parent"
     tools:context=".NewJourneyActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_new_journey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ToolbarPopupTheme"/>
+
+    <TextView
+        android:id="@+id/tv_destination"
+        android:layout_width="80dp"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:gravity="center_vertical|start"
+        android:text="@string/new_journey_destination"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_new_journey" />
+
+    <EditText
+        android:id="@+id/et_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:paddingStart="@dimen/normal_margin_horizontal"
+        android:paddingEnd="@dimen/normal_margin_horizontal"
+        android:gravity="center_vertical|start"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/new_journey_destination_hint"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintStart_toEndOf="@+id/tv_destination"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_new_journey" />
+
+    <TextView
+        android:id="@+id/tv_person"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:gravity="center_vertical|start"
+        android:text="@string/new_journey_person"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_destination" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_person"
+        android:background="@drawable/border">
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical" >-->
+            <!--<TextView-->
+                <!--android:id="@+id/textView2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="TextView"-->
+                <!--android:textSize="@dimen/normal_text_size" />-->
+        <!--</LinearLayout>-->
+        <TextView
+            android:id="@+id/tv_people_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="nobody yet"
+            android:textSize="@dimen/normal_text_size"
+            android:paddingStart="@dimen/normal_margin_horizontal"
+            android:paddingEnd="@dimen/normal_margin_horizontal"
+            android:paddingTop="@dimen/normal_margin_vertical"
+            android:paddingBottom="@dimen/normal_margin_vertical"/>
+
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/et_person"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:gravity="center_vertical|start"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/new_journey_person_hint"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/bt_add"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:text="@string/new_journey_add"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintStart_toEndOf="@+id/et_person"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/bt_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:text="@string/new_journey_delete"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bt_add"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/bt_confirm"
+        android:layout_width="300dp"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:text="@string/new_journey_confirm"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_person" />
+
 </android.support.constraint.ConstraintLayout>

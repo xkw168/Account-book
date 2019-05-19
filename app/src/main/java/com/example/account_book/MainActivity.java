@@ -1,6 +1,7 @@
 package com.example.account_book;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import com.example.account_book.util.DBHelper;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
      */
     private boolean isRefresh;
     private boolean isLoadMore;
+    private String destination;
 
 
     @Override
@@ -53,11 +57,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         setContentView(R.layout.activity_main);
 
+        loadData();
+
         isRefresh = false;
         isLoadMore = false;
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
 
         initRecycleView();
         initUI();
@@ -114,10 +121,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 newAccount.setNumber(data.getDoubleExtra(AddAccountActivity.NUMBER, 0.0));
                 newAccount.setPerson(data.getStringExtra(AddAccountActivity.PERSON));
                 newAccount.setCreateTime(data.getStringExtra(AddAccountActivity.TIME));
-                showToast("成功添加订单...");
+                showToast("成功添加账单");
                 mAccountAdapter.addAccount(newAccount);
             }else {
-                showToast("添加账单失败，请检查网络连接...");
+                showToast("未添加账单");
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -211,6 +218,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    public void loadData() {
+        SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
+        destination = preferences.getString("destination", "记账本");
     }
 }
 

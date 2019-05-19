@@ -74,11 +74,10 @@
 
         <Spinner
             android:id="@+id/sp_person"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/normal_text_size"
             android:textColor="#000000"
-            android:entries="@array/person"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown"
             android:layout_marginStart="@dimen/normal_margin_horizontal"
