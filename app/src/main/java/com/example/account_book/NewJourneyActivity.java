@@ -23,6 +23,7 @@ import java.util.Objects;
 public class NewJourneyActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = NewJourneyActivity.class.getSimpleName();
+    public static final String DES = "destination";
 
     /**
      * UI
@@ -100,6 +101,10 @@ public class NewJourneyActivity extends AppCompatActivity implements View.OnClic
                 if (!destination.isEmpty()){
                     saveData();
                     showToast("成功添加旅程");
+                    new DBHelper(this).emptyTable();
+                    Intent data = new Intent();
+                    data.putExtra(DES, destination);
+                    setResult(1, data);
                     finish();
                 }else {
                     showToast("请输入旅程名");

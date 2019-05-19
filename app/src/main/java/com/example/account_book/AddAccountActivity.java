@@ -66,7 +66,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         btSubmit.setOnClickListener(this);
 
         tvTime.setText(String.format("时间: %s", TimeUtils.now()));
-        ArrayAdapter<String> peopleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, peopleList);
+        ArrayAdapter<String> peopleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, peopleList);
         spPerson.setAdapter(peopleAdapter);
     }
 

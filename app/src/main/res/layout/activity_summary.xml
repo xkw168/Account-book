@@ -25,7 +25,6 @@
         android:layout_marginBottom="@dimen/normal_margin_vertical"
         android:layout_marginStart="@dimen/normal_margin_horizontal"
         android:layout_marginEnd="@dimen/normal_margin_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_summary"/>
 
@@ -40,7 +39,6 @@
         android:layout_marginBottom="@dimen/normal_margin_vertical"
         android:layout_marginStart="@dimen/normal_margin_horizontal"
         android:layout_marginEnd="@dimen/normal_margin_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/summary_total" />
 </android.support.constraint.ConstraintLayout>

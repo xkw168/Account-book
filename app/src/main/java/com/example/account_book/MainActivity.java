@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 import com.example.account_book.util.DBHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
      */
     private final static String ACCOUNTS_INFO = "accounts";
     private final static int ADD_ACCOUNT = 0x0001;
+    private final static int NEW_JOURNEY = 0x0002;
 
     public static int OFFSET = 0;
     public static int LIMIT = 30;
@@ -98,8 +99,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 onBackPressed();
                 break;
             case R.id.action_new_journey:
-                Intent intent1 = new Intent(MainActivity.this, NewJourneyActivity.class);
-                startActivity(intent1);
+                showNewJourneyAlertDialog();
                 break;
             case R.id.action_summary:
                 Intent intent2 = new Intent(MainActivity.this, SummaryActivity.class);
@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 mAccountAdapter.addAccount(newAccount);
             }else {
                 showToast("未添加账单");
+            }
+        }else if (requestCode == NEW_JOURNEY){
+            if (resultCode == 1){
+                Objects.requireNonNull(getSupportActionBar()).setTitle(data.getStringExtra(NewJourneyActivity.DES));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -215,6 +219,30 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
     }
 
+    private void showNewJourneyAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("注意：新建一个旅程会清空所有旧旅程数据");
+        builder.setPositiveButton("确定", ((dialogInterface, i) -> {
+            Intent intent1 = new Intent(MainActivity.this, NewJourneyActivity.class);
+            startActivityForResult(intent1, NEW_JOURNEY);
+        }));
+        builder.setNegativeButton("取消", ((dialogInterface, i) -> {}));
+
+        builder.create().show();
+    }
+
+    private void newJourneyDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("你还未创建旅程，是否新建旅程信息？");
+        builder.setPositiveButton("确定", ((dialogInterface, i) -> {
+            Intent intent1 = new Intent(MainActivity.this, NewJourneyActivity.class);
+            startActivityForResult(intent1, NEW_JOURNEY);
+        }));
+        builder.setNegativeButton("取消", ((dialogInterface, i) -> {}));
+
+        builder.create().show();
+    }
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
@@ -223,6 +251,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void loadData() {
         SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
         destination = preferences.getString("destination", "记账本");
+        if (destination != null & destination.equals("记账本")){
+            newJourneyDialog();
+        }
     }
+
 }
 
