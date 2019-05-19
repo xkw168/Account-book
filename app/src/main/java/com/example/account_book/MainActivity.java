@@ -58,10 +58,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         setContentView(R.layout.activity_main);
 
-        loadData();
-
         isRefresh = false;
         isLoadMore = false;
+        destination = "记账本";
+
+        loadData();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -155,8 +156,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         DrawableCompat.setTintList(DrawableCompat.wrap(fab.getDrawable()), ColorStateList.valueOf(Color.parseColor("#000000")));
         DrawableCompat.setTintList(DrawableCompat.wrap(fab.getBackground()), ColorStateList.valueOf(Color.parseColor("#3F51B5")));
         fab.setOnClickListener(listener -> {
-            Intent intent = new Intent(this, AddAccountActivity.class);
-            startActivityForResult(intent, ADD_ACCOUNT);
+            if (destination.equals("记账本")){
+                showToast("请先添加旅程");
+            }else {
+                Intent intent = new Intent(MainActivity.this, AddAccountActivity.class);
+                startActivityForResult(intent, ADD_ACCOUNT);
+            }
         });
     }
 
