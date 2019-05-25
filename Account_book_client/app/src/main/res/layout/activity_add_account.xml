@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddAccountActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_new_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ToolbarPopupTheme" />
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/normal_margin_vertical"
+        android:layout_marginBottom="@dimen/normal_margin_vertical"
+        android:paddingTop="@dimen/normal_margin_vertical"
+        android:paddingBottom="@dimen/normal_margin_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_new_account"
+        app:layout_constraintBottom_toTopOf="@id/ll_button">
+
+        <TextView
+            android:id="@+id/tv_create_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin_horizontal"
+            android:layout_marginEnd="@dimen/normal_margin_vertical"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="时间："
+            android:textColor="#000000"
+            android:textSize="@dimen/large_text_size" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin_horizontal"
+            android:layout_marginEnd="@dimen/normal_margin_vertical"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:hint="@string/add_new_account_number"
+            style="@style/Widget.Shrine.TextInputLayout">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_new_account_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin_horizontal"
+            android:layout_marginEnd="@dimen/normal_margin_vertical"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:hint="@string/add_new_account_content"
+            style="@style/Widget.Shrine.TextInputLayout">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_new_account_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Spinner
+            android:id="@+id/sp_person"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_text_size"
+            android:textColor="#000000"
+            android:entries="@array/person"
+            android:overlapAnchor="false"
+            android:spinnerMode="dropdown"
+            android:layout_marginStart="@dimen/normal_margin_horizontal"
+            android:layout_marginEnd="@dimen/normal_margin_horizontal">
+        </Spinner>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_content">
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/bt_cancel"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/bt_cancel"
+            android:textSize="@dimen/normal_text_size"
+            style="@style/Widget.Shrine.Button"/>
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/bt_submit"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/bt_confirm"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_marginStart="10dp"
+            style="@style/Widget.Shrine.Button"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
