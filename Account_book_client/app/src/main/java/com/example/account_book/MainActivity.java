@@ -153,10 +153,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void reloadData(){
         mAccountAdapter.clear();
         OFFSET = 0;
-        getOrderInfo();
+        getAccountInfo();
     }
 
-    private void getOrderInfo(){
+    private void getAccountInfo(){
         String str = HttpUtils.QUERY_ALL_ACCOUNT + OFFSET + "/" + LIMIT;
         HttpUtils.sendRequestGetAsy(str, new okhttp3.Callback() {
             @Override
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 Log.e(TAG, e.toString());
                 runOnUiThread(() -> {
                     swipeRefreshLayout.setRefreshing(false);
-                    showToast("获取订单信息失败，请检查网络连接...");
+                    showToast("获取账单信息失败，请检查网络连接...");
                 });
             }
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     String str = response.body().string();
                     JSONObject jsonObject = new JSONObject(str);
                     //子线程不能更新UI相关内容
-                    updateOrderUI((ArrayList<Account>)
+                    updateAccountUI((ArrayList<Account>)
                             HttpUtils.parseAllAccount(jsonObject.getString(ACCOUNTS_INFO)));
                     if (isRefresh){
                         runOnUiThread(() -> {
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
     }
 
-    private void deleteOrder(final int position){
+    private void deleteAccount(final int position){
         Account account = mAccountAdapter.getItem(position);
         HttpUtils.sendRequestGetAsy(HttpUtils.DELETE_ACCOUNT + account.getId(), new okhttp3.Callback() {
             @Override
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
-    public void updateOrderUI(final ArrayList<Account> accounts){
+    public void updateAccountUI(final ArrayList<Account> accounts){
         if (accounts != null){
             runOnUiThread(() -> {
                 mAccountAdapter.addAccounts(accounts);
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void initRecycleView(){
         // initialize the adapter of RecyclerView
         mAccountAdapter = new AccountAdapter();
-        mAccountAdapter.setListener(this::deleteOrder);
+        mAccountAdapter.setListener(this::deleteAccount);
         RecyclerView rvOrder = (RecyclerView) findViewById(R.id.rv_order);
         rvOrder.setLayoutManager(new LinearLayoutManager(this));
         rvOrder.setAdapter(mAccountAdapter);

@@ -46,18 +46,6 @@ def home():
     return "copyright xkw"
 
 
-# 输入ok
-@app.route('/yingzi', methods=['GET'])
-def ok():
-    return "萨瓦迪卡，迎紫高!"
-
-
-# 输入字符
-@app.route('/<name>', methods=['GET'])
-def hello(name):
-    return "萨瓦迪卡，" + name + "!"
-
-
 @app.route('/queryAllAccount/<offset>/<limit>', methods=['GET'])
 def query_all_account(offset, limit):
     accounts = query_all_account_info(int(offset), int(limit))
