@@ -18,4 +18,9 @@
         android:id="@+id/action_new_journey"
         android:title="@string/action_new_journey"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_edit_journey"
+        android:title="@string/action_edit_journey"
+        app:showAsAction="never"/>
 </menu>

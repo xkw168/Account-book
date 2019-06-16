@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".NewJourneyActivity"
+            android:name=".NewEditJourneyActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".AddAccountActivity" />

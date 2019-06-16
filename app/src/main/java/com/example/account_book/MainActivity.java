@@ -23,8 +23,6 @@ import android.widget.Toast;
 import com.example.account_book.util.DBHelper;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -104,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case R.id.action_new_journey:
                 showNewJourneyAlertDialog();
                 break;
+            case R.id.action_edit_journey:
+                editJourney();
+                break;
             case R.id.action_summary:
                 Intent intent2 = new Intent(MainActivity.this, SummaryActivity.class);
                 startActivity(intent2);
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         }else if (requestCode == NEW_JOURNEY){
             if (resultCode == 1){
-                destination = data.getStringExtra(NewJourneyActivity.DES);
+                destination = data.getStringExtra(NewEditJourneyActivity.DES);
                 Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
             }
         }
@@ -171,10 +172,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void reloadData(){
         mAccountAdapter.clear();
         OFFSET = 0;
-        getOrderInfo();
+        getAccountInfo();
     }
 
-    private void getOrderInfo(){
+    private void getAccountInfo(){
         DBHelper db = new DBHelper(MainActivity.this);
         updateOrderUI((ArrayList<Account>)db.queryAllAccount());
         if (isRefresh){
@@ -231,7 +232,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("注意：新建一个旅程会清空所有旧旅程数据");
         builder.setPositiveButton("确定", ((dialogInterface, i) -> {
-            Intent intent1 = new Intent(MainActivity.this, NewJourneyActivity.class);
+            Intent intent1 = new Intent(MainActivity.this, NewEditJourneyActivity.class);
+            intent1.putExtra("type", "newJourney");
             startActivityForResult(intent1, NEW_JOURNEY);
         }));
         builder.setNegativeButton("取消", ((dialogInterface, i) -> {}));
@@ -239,11 +241,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         builder.create().show();
     }
 
+    private void editJourney(){
+        Intent intent1 = new Intent(MainActivity.this, NewEditJourneyActivity.class);
+        intent1.putExtra("type", "editJourney");
+        startActivityForResult(intent1, NEW_JOURNEY);
+    }
+
     private void newJourneyDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("你还未创建旅程，是否新建旅程信息？");
         builder.setPositiveButton("确定", ((dialogInterface, i) -> {
-            Intent intent1 = new Intent(MainActivity.this, NewJourneyActivity.class);
+            Intent intent1 = new Intent(MainActivity.this, NewEditJourneyActivity.class);
+            intent1.putExtra("type", "newJourney");
             startActivityForResult(intent1, NEW_JOURNEY);
         }));
         builder.setNegativeButton("取消", ((dialogInterface, i) -> {}));

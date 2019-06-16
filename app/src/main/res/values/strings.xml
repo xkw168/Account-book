@@ -18,6 +18,7 @@
 
     <string name="action_search">搜索</string>
     <string name="action_new_journey">新的旅程</string>
+    <string name="action_edit_journey">修改旅程信息</string>
     <string name="action_summary">金额统计</string>
 
     <string name="loading">加载中&#8230;</string>

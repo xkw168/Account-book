@@ -15,14 +15,13 @@ import android.widget.Toast;
 
 import com.example.account_book.util.DBHelper;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class NewJourneyActivity extends AppCompatActivity implements View.OnClickListener{
+public class NewEditJourneyActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String TAG = NewJourneyActivity.class.getSimpleName();
+    private static final String TAG = NewEditJourneyActivity.class.getSimpleName();
     public static final String DES = "destination";
 
     /**
@@ -38,6 +37,7 @@ public class NewJourneyActivity extends AppCompatActivity implements View.OnClic
     /**
      * variable
      */
+    private boolean isEdit;
     private String destination;
     private List<String> peopleList;
 
@@ -46,9 +46,17 @@ public class NewJourneyActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_journey);
 
+        String type = getIntent().getExtras().getString("type");
+        Log.e(TAG, type);
+        isEdit = type.equals("editJourney");
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_new_journey);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("新的旅程");
+        if (isEdit){
+            Objects.requireNonNull(getSupportActionBar()).setTitle("修改旅程信息");
+        }else {
+            Objects.requireNonNull(getSupportActionBar()).setTitle("新的旅程");
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         peopleList = new LinkedList<>();
@@ -100,8 +108,10 @@ public class NewJourneyActivity extends AppCompatActivity implements View.OnClic
                 destination = etDestination.getText().toString();
                 if (!destination.isEmpty()){
                     saveData();
-                    showToast("成功添加旅程");
-                    new DBHelper(this).emptyTable();
+                    showToast(isEdit ? "成功修改旅程" : "成功添加旅程");
+                    if (!isEdit){
+                        new DBHelper(this).emptyTable();
+                    }
                     Intent data = new Intent();
                     data.putExtra(DES, destination);
                     setResult(1, data);
@@ -126,6 +136,13 @@ public class NewJourneyActivity extends AppCompatActivity implements View.OnClic
         btAdd.setOnClickListener(this);
         btDelete.setOnClickListener(this);
         btConfirm.setOnClickListener(this);
+
+        if (isEdit){
+            loadData();
+            etDestination.setText(destination);
+            showPeopleList();
+            btConfirm.setText("确认修改");
+        }
     }
 
     private void showPeopleList(){
@@ -137,7 +154,18 @@ public class NewJourneyActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showToast(String message){
-        Toast.makeText(NewJourneyActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(NewEditJourneyActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void loadData() {
+        SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
+        destination = preferences.getString("destination", "记账本");
+        int cnt = preferences.getInt("count", 0);
+        Log.e(TAG, "loadData: " + cnt);
+        for (int i = 0; i < cnt; i++){
+            peopleList.add(preferences.getString(String.format("person%s", i), ""));
+            Log.e(TAG, peopleList.get(i));
+        }
     }
 
     public void saveData(){
