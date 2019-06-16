@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.example.account_book.util.DBHelper;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ACCOUNT){
-            //增加新的订单
+            //增加新的账单
             if (resultCode == 1){
                 final Account newAccount = new Account();
                 newAccount.setContent(data.getStringExtra(AddAccountActivity.CONTENT));
@@ -129,7 +131,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         }else if (requestCode == NEW_JOURNEY){
             if (resultCode == 1){
-                Objects.requireNonNull(getSupportActionBar()).setTitle(data.getStringExtra(NewJourneyActivity.DES));
+                destination = data.getStringExtra(NewJourneyActivity.DES);
+                Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

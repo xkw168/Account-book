@@ -1,8 +1,10 @@
 package com.example.account_book;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +18,10 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class SummaryActivity extends AppCompatActivity {
+
+    private static final String TAG = SummaryActivity.class.getSimpleName();
+
+    private HashMap<String, Double> result = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,8 @@ public class SummaryActivity extends AppCompatActivity {
 
         if (accounts != null){
             if (!accounts.isEmpty()){
-                HashMap<String, Double> result = new HashMap<>();
+
+                loadPersonList();
 
                 double sum = 0.0;
                 double average = 0.0;
@@ -43,7 +50,7 @@ public class SummaryActivity extends AppCompatActivity {
                 for (Account account : accounts) {
                     String key = account.getPerson();
                     if (result.containsKey(key)){
-                        result.replace(key, result.get(key) + account.getNumber());
+                        result.replace(key, Objects.requireNonNull(result.get(key)) + account.getNumber());
                     }else {
                         result.put(key, account.getNumber());
                     }
@@ -51,13 +58,6 @@ public class SummaryActivity extends AppCompatActivity {
                 }
 
                 average = sum / result.keySet().size();
-
-                StringBuilder total = new StringBuilder()
-                        .append("总计:")
-                        .append(sum)
-                        .append("\n")
-                        .append("人均:")
-                        .append(average);
 
                 StringBuilder separate = new StringBuilder();
 
@@ -68,12 +68,17 @@ public class SummaryActivity extends AppCompatActivity {
                             .append("已付:")
                             .append(result.get(key))
                             .append("（")
-                            .append(String.format(Locale.CHINA, "%.2f", result.get(key) - average))
+                            .append(String.format(Locale.CHINA, "%.2f", Objects.requireNonNull(result.get(key)) - average))
                             .append("）")
                             .append("\n\n");
                 }
 
-                tv_total.setText(total.toString());
+                String total = "总计:" +
+                        sum +
+                        "\n" +
+                        "人均:" +
+                        average;
+                tv_total.setText(total);
                 tv_separate.setText(separate.toString());
             }
         }else {
@@ -97,5 +102,14 @@ public class SummaryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void loadPersonList() {
+        SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
+        int cnt = preferences.getInt("count", 0);
+        Log.e(TAG, "loadData: " + cnt);
+        for (int i = 0; i < cnt; i++){
+            result.put(preferences.getString(String.format("person%s", i), ""), 0.0);
+        }
     }
 }
