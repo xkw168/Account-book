@@ -1,4 +1,4 @@
-package com.example.account_book;
+package com.example.account_book.activity;
 
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.account_book.DailyAccount;
+import com.example.account_book.R;
 import com.example.account_book.util.DBHelper;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
@@ -37,24 +38,24 @@ public class SummaryActivity extends AppCompatActivity {
         TextView tv_separate = (TextView)findViewById(R.id.summary_separate);
 
         DBHelper db = new DBHelper(SummaryActivity.this);
-        ArrayList<Account> accounts = (ArrayList<Account>)db.queryAllAccount();
+        ArrayList<DailyAccount> dailyAccounts = (ArrayList<DailyAccount>)db.queryDailyAccount();
 
-        if (accounts != null){
-            if (!accounts.isEmpty()){
+        if (dailyAccounts != null){
+            if (!dailyAccounts.isEmpty()){
 
                 loadPersonList();
 
                 double sum = 0.0;
                 double average = 0.0;
 
-                for (Account account : accounts) {
-                    String key = account.getPerson();
+                for (DailyAccount dailyAccount : dailyAccounts) {
+                    String key = dailyAccount.getCurrencyType();
                     if (result.containsKey(key)){
-                        result.replace(key, Objects.requireNonNull(result.get(key)) + account.getNumber());
+                        result.replace(key, Objects.requireNonNull(result.get(key)) + dailyAccount.getAmount());
                     }else {
-                        result.put(key, account.getNumber());
+                        result.put(key, dailyAccount.getAmount());
                     }
-                    sum += account.getNumber();
+                    sum += dailyAccount.getAmount();
                 }
 
                 average = sum / result.keySet().size();

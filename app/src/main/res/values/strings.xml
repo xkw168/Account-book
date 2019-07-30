@@ -9,23 +9,28 @@
     <string name="add_new_account_person">付款人：</string>
     <string name="add_new_account_content">备注：</string>
 
-    <string-array name="person">
+    <string-array name="member">
         <item>xkw</item>
         <item>强哥</item>
         <item>齐姐姐</item>
         <item>慧瑶</item>
     </string-array>
 
+    <!--主菜单选项-->
     <string name="action_search">搜索</string>
-    <string name="action_new_journey">新的旅程</string>
-    <string name="action_edit_journey">修改旅程信息</string>
     <string name="action_summary">金额统计</string>
+    <string name="action_journey_mode">旅行AA记账</string>
+    <string name="action_setting">设置</string>
+    <string name="action_about">关于</string>
 
+    <!--旅行菜单选项-->
     <string name="loading">加载中&#8230;</string>
     <string name="load_more">上拉加载更多</string>
     <string name="load_failed">无更多数据</string>
     <string name="title_activity_new_journey">新的旅程</string>
 
+
+    <!--新建旅程页面-->
     <string name="new_journey_destination">旅行名:</string>
     <string name="new_journey_destination_hint">起个拉风的名字吧</string>
     <string name="new_journey_person">旅行伙伴：</string>
@@ -33,5 +38,14 @@
     <string name="new_journey_add">添加</string>
     <string name="new_journey_delete">删除</string>
     <string name="new_journey_confirm">确认添加</string>
+
+    <!--新建账单页面-->
+    <string name="new_account_currency">货币种类：</string>
+    <string name="new_account_person">付款人：</string>
+
+    <!--关于页面-->
+    <string name="about_app_introduction"></string>
+
+    <!--设置页面-->
 
 </resources>

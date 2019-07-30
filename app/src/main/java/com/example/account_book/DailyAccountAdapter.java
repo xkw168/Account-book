@@ -11,31 +11,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
-class AccountAdapter extends SectionedRecyclerViewAdapter {
+public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
 
-    public final static String TAG = AccountAdapter.class.getSimpleName();
+    public final static String TAG = DailyAccountAdapter.class.getSimpleName();
 
     /**
      * constant value
      */
     // 三种状态
-    public final static int STATE_LOADING = 0;  //加载中
-    public final static int STATE_COMPLETE = 1; //加载完成
-    public final static int STATE_NOMORE = 2;  //没有更多了
+    private final static int STATE_LOADING = 0;  //加载中
+    private final static int STATE_COMPLETE = 1; //加载完成
+    private final static int STATE_NOMORE = 2;  //没有更多了
     // 两种view
     private static final int TYPE_ITEM = 3;  //普通Item View
     private static final int TYPE_FOOTER = 4;  //顶部FootView
 
 
-    private ArrayList<Account> mAccounts;
-    private ArrayList<Account> filteredAccounts;
-    private AccountAdapter mAdapter;
+    private ArrayList<DailyAccount> mDailyAccounts;
+    private ArrayList<DailyAccount> filteredDailyAccounts;
+    private DailyAccountAdapter mAdapter;
     private int loadMoreStatue;
 
     private DeleteListener mListener;
@@ -48,79 +47,79 @@ class AccountAdapter extends SectionedRecyclerViewAdapter {
         this.mListener = mListener;
     }
 
-    AccountAdapter(){
+    public DailyAccountAdapter(){
         super();
-        mAccounts = new ArrayList<Account>();
-        filteredAccounts = new ArrayList<Account>();
+        mDailyAccounts = new ArrayList<DailyAccount>();
+        filteredDailyAccounts = new ArrayList<DailyAccount>();
         mAdapter = this;
         mListener = null;
     }
 
-    AccountAdapter(ArrayList<Account> accounts){
-        mAccounts = accounts;
-        filteredAccounts = accounts;
+    public DailyAccountAdapter(ArrayList<DailyAccount> dailyAccounts){
+        mDailyAccounts = dailyAccounts;
+        filteredDailyAccounts = dailyAccounts;
         mAdapter = this;
         mListener = null;
     }
 
-    void addAccount(Account account){
-        if (!mAccounts.contains(account)){
-            mAccounts.add(account);
+    public void addAccount(DailyAccount dailyAccount){
+        if (!mDailyAccounts.contains(dailyAccount)){
+            mDailyAccounts.add(dailyAccount);
         }
-        if (!filteredAccounts.contains(account)){
-            filteredAccounts.add(account);
+        if (!filteredDailyAccounts.contains(dailyAccount)){
+            filteredDailyAccounts.add(dailyAccount);
         }
         updateSections();
         notifyDataSetChanged();
     }
 
-    void addAccounts(List<Account> accounts){
-        mAccounts.addAll(accounts);
-        filteredAccounts.addAll(accounts);
+    public void addAccounts(List<DailyAccount> dailyAccounts){
+        mDailyAccounts.addAll(dailyAccounts);
+        filteredDailyAccounts.addAll(dailyAccounts);
         updateSections();
         notifyDataSetChanged();
     }
 
-    Account getItem(int index){
-        return filteredAccounts.get(index);
+    public DailyAccount getItem(int index){
+        return filteredDailyAccounts.get(index);
     }
 
-    void removeItem(int index){
-        mAccounts.remove(filteredAccounts.get(index));
-        filteredAccounts.remove(index);
+    public void removeItem(int index){
+        mDailyAccounts.remove(filteredDailyAccounts.get(index));
+        filteredDailyAccounts.remove(index);
         updateSections();
         notifyDataSetChanged();
     }
 
-    void clear(){
-        mAccounts.clear();
-        filteredAccounts.clear();
+    public void clear(){
+        mDailyAccounts.clear();
+        filteredDailyAccounts.clear();
         updateSections();
         notifyDataSetChanged();
     }
 
-    void updateSections(){
+    private void updateSections(){
         mAdapter.removeAllSections();
-        Collections.sort(filteredAccounts);
-        Collections.reverse(filteredAccounts);
+        Collections.sort(filteredDailyAccounts);
+        Collections.reverse(filteredDailyAccounts);
         String lastTime = "";
         double totalPrice = 0.0;
-        List<Account> accountSameDate = new LinkedList<>();
-        for (Account account : filteredAccounts){
-            String time = account.getCreateTime().substring(0, 10);
+        List<DailyAccount> dailyAccountSameDate = new LinkedList<>();
+        for (DailyAccount dailyAccount : filteredDailyAccounts){
+            String time = dailyAccount.getCreateTime().substring(0, 10);
             Log.e(TAG, time);
             // a new time
-            if (!time.equals(lastTime) && !accountSameDate.isEmpty()){
-                mAdapter.addSection(new ExpandableAccountSection(lastTime + "(" + totalPrice + ")", accountSameDate));
-                accountSameDate = new LinkedList<>();
+            if (!time.equals(lastTime) && !dailyAccountSameDate.isEmpty()){
+                mAdapter.addSection(new ExpandableAccountSection(lastTime + "(" + totalPrice + ")", dailyAccountSameDate));
+                dailyAccountSameDate = new LinkedList<>();
                 totalPrice = 0.0;
             }
-            accountSameDate.add(account);
-            totalPrice += account.getNumber();
+            dailyAccountSameDate.add(dailyAccount);
+            totalPrice += dailyAccount.getAmount();
             lastTime = time;
         }
-        if (!accountSameDate.isEmpty()){
-            mAdapter.addSection(new ExpandableAccountSection(lastTime + "(" + totalPrice + ")", accountSameDate));
+        if (!dailyAccountSameDate.isEmpty()){
+            mAdapter.addSection(new ExpandableAccountSection(lastTime + "(" + totalPrice + ")", dailyAccountSameDate));
         }
         notifyDataSetChanged();
     }
@@ -128,22 +127,22 @@ class AccountAdapter extends SectionedRecyclerViewAdapter {
     public class ExpandableAccountSection extends StatelessSection {
 
         String title;
-        List<Account> accounts;
+        List<DailyAccount> dailyAccounts;
         boolean expanded = true;
 
-        private ExpandableAccountSection(String title, List<Account> accounts){
+        private ExpandableAccountSection(String title, List<DailyAccount> dailyAccounts){
             super(SectionParameters.builder()
                     .itemResourceId(R.layout.listitem_account)
                     .headerResourceId(R.layout.listitem_account_header)
                     .build());
 
             this.title = title;
-            this.accounts = accounts;
+            this.dailyAccounts = dailyAccounts;
         }
 
         @Override
         public int getContentItemsTotal() {
-            return expanded ? accounts.size() : 0;
+            return expanded ? dailyAccounts.size() : 0;
         }
 
         @Override
@@ -156,11 +155,10 @@ class AccountAdapter extends SectionedRecyclerViewAdapter {
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (holder instanceof MyAccountHolder){
                 MyAccountHolder viewHolder = (MyAccountHolder) holder;
-                Account account = accounts.get(position);
-                viewHolder.accountDate.setText(account.getCreateTime());
-                viewHolder.accountNumber.setText(String.format("%s", account.getNumber()));
-                viewHolder.accountContent.setText(account.getContent());
-                viewHolder.accountPerson.setText(account.getPerson());
+                DailyAccount dailyAccount = dailyAccounts.get(position);
+                viewHolder.accountDate.setText(dailyAccount.getCreateTime());
+                viewHolder.accountNumber.setText(String.format("%s", dailyAccount.getAmount()));
+                viewHolder.accountContent.setText(dailyAccount.getContent());
                 viewHolder.delete.setOnClickListener((view) -> {
                     if (mListener != null){
                         mListener.onDeleteListener(position);
@@ -225,19 +223,17 @@ class AccountAdapter extends SectionedRecyclerViewAdapter {
         TextView accountDate;
         TextView accountNumber;
         TextView accountContent;
-        TextView accountPerson;
         MyAccountHolder(View itemView) {
             super(itemView);
             delete = itemView.findViewById(R.id.delete_icon);
             accountDate = itemView.findViewById(R.id.account_date);
             accountNumber = itemView.findViewById(R.id.account_number);
             accountContent = itemView.findViewById(R.id.account_content);
-            accountPerson = itemView.findViewById(R.id.account_person);
         }
 
     }
 
-    class FooterViewHolder extends RecyclerView.ViewHolder{
+    public class FooterViewHolder extends RecyclerView.ViewHolder{
         TextView loadMoreHint;
         ProgressBar progressBar;
         View item;
@@ -250,14 +246,14 @@ class AccountAdapter extends SectionedRecyclerViewAdapter {
         }
     }
 
-    void filter(String filterKeyword){
-        filteredAccounts.clear();
+    public void filter(String filterKeyword){
+        filteredDailyAccounts.clear();
         if (filterKeyword.isEmpty()){
-            filteredAccounts.addAll(mAccounts);
+            filteredDailyAccounts.addAll(mDailyAccounts);
         }else {
-            for (Account account : mAccounts){
-                if (account.getSimpleString().toLowerCase().contains(filterKeyword)){
-                    filteredAccounts.add(account);
+            for (DailyAccount dailyAccount : mDailyAccounts){
+                if (dailyAccount.getSimpleString().toLowerCase().contains(filterKeyword)){
+                    filteredDailyAccounts.add(dailyAccount);
                 }
             }
         }

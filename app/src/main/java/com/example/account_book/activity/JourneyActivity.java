@@ -1,10 +1,9 @@
-package com.example.account_book;
+package com.example.account_book.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -12,6 +11,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -20,28 +20,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.account_book.Journey;
+import com.example.account_book.Journey;
+import com.example.account_book.JourneyAdapter;
+import com.example.account_book.R;
 import com.example.account_book.util.DBHelper;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class JourneyActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "JourneyActivity";
     /**
      *  constant value
      */
-    private final static String ACCOUNTS_INFO = "accounts";
     private final static int ADD_ACCOUNT = 0x0001;
     private final static int NEW_JOURNEY = 0x0002;
-
-    public static int OFFSET = 0;
-    public static int LIMIT = 30;
 
     /**
      * UI variable
      */
-    private AccountAdapter mAccountAdapter;
+    private JourneyAdapter mJourneyAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     /**
@@ -49,29 +49,27 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
      */
     private boolean isRefresh;
     private boolean isLoadMore;
-    private String destination;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_journey);
 
         isRefresh = false;
         isLoadMore = false;
-        destination = "记账本";
 
         loadData();
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_main);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_journey);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("我的旅程");
 
         initRecycleView();
         initUI();
 
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.srl_order);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.srl_journey_account);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             isRefresh = true;
             reloadData();
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.journey_menu, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
@@ -99,14 +97,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.action_new_journey:
-                showNewJourneyAlertDialog();
-                break;
-            case R.id.action_edit_journey:
-                editJourney();
-                break;
+//            case R.id.action_new_journey:
+//                showNewJourneyAlertDialog();
+//                break;
+//            case R.id.action_edit_journey:
+//                editJourney();
+//                break;
             case R.id.action_summary:
-                Intent intent2 = new Intent(MainActivity.this, SummaryActivity.class);
+                Intent intent2 = new Intent(JourneyActivity.this, SummaryActivity.class);
                 startActivity(intent2);
                 break;
             default:
@@ -118,22 +116,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ACCOUNT){
-            //增加新的账单
-            if (resultCode == 1){
-                final Account newAccount = new Account();
-                newAccount.setContent(data.getStringExtra(AddAccountActivity.CONTENT));
-                newAccount.setNumber(data.getDoubleExtra(AddAccountActivity.NUMBER, 0.0));
-                newAccount.setPerson(data.getStringExtra(AddAccountActivity.PERSON));
-                newAccount.setCreateTime(data.getStringExtra(AddAccountActivity.TIME));
-                showToast("成功添加账单");
-                mAccountAdapter.addAccount(newAccount);
-            }else {
-                showToast("未添加账单");
-            }
+//            //增加新的账单
+//            if (resultCode == 1){
+//                final Journey newJourney = new Journey();
+//                newJourney.setContent(data.getStringExtra(AddAccountActivity.CONTENT));
+//                newJourney.setAmount(data.getDoubleExtra(AddAccountActivity.AMOUNT, 0.0));
+//                newJourney.setCurrencyType(data.getStringExtra(AddAccountActivity.PERSON));
+//                newJourney.setCreateTime(data.getStringExtra(AddAccountActivity.TIME));
+//                showToast("成功添加账单");
+//                mJourneyAdapter.addJourney(newJourney);
+//            }else {
+//                showToast("未添加账单");
+//            }
         }else if (requestCode == NEW_JOURNEY){
             if (resultCode == 1){
-                destination = data.getStringExtra(NewEditJourneyActivity.DES);
-                Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
+//                destination = data.getStringExtra(NewEditJourneyActivity.DES);
+//                Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -151,33 +149,32 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String s) {
-        mAccountAdapter.filter(s);
+        mJourneyAdapter.filter(s);
         return true;
     }
 
     private void initUI(){
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab_main);
         DrawableCompat.setTintList(DrawableCompat.wrap(fab.getDrawable()), ColorStateList.valueOf(Color.parseColor("#000000")));
         DrawableCompat.setTintList(DrawableCompat.wrap(fab.getBackground()), ColorStateList.valueOf(Color.parseColor("#3F51B5")));
         fab.setOnClickListener(listener -> {
-            if (destination.equals("记账本")){
-                showToast("请先添加旅程");
-            }else {
-                Intent intent = new Intent(MainActivity.this, AddAccountActivity.class);
-                startActivityForResult(intent, ADD_ACCOUNT);
-            }
+//            if (destination.equals("记账本")){
+//                showToast("请先添加旅程");
+//            }else {
+//                Intent intent = new Intent(JourneyActivity.this, NewEditJourneyActivity.class);
+//                startActivityForResult(intent, ADD_ACCOUNT);
+//            }
         });
     }
 
     private void reloadData(){
-        mAccountAdapter.clear();
-        OFFSET = 0;
+        mJourneyAdapter.clear();
         getAccountInfo();
     }
 
     private void getAccountInfo(){
-        DBHelper db = new DBHelper(MainActivity.this);
-        updateOrderUI((ArrayList<Account>)db.queryAllAccount());
+        DBHelper db = new DBHelper(JourneyActivity.this);
+        updateOrderUI((ArrayList<Journey>)db.queryJourney());
         if (isRefresh){
             runOnUiThread(() -> {
                 swipeRefreshLayout.setRefreshing(false);
@@ -187,23 +184,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
-    private void deleteOrder(final int position){
-        Account account = mAccountAdapter.getItem(position);
-        DBHelper db = new DBHelper(MainActivity.this);
-        db.deleteAccount(account.getId());
-        mAccountAdapter.removeItem(position);
-        mAccountAdapter.notifyDataSetChanged();
-        showToast("账单已删除");
-    }
+//    private void deleteOrder(final int position){
+//        Journey Journey = mJourneyAdapter.getItem(position);
+//        DBHelper db = new DBHelper(JourneyActivity.this);
+//        db.deleteAccount(Journey.getId());
+//        mJourneyAdapter.removeItem(position);
+//        mJourneyAdapter.notifyDataSetChanged();
+//        showToast("账单已删除");
+//    }
 
     private void updateAccount(){
 
     }
 
-    public void updateOrderUI(final ArrayList<Account> accounts){
-        if (accounts != null){
+    public void updateOrderUI(final ArrayList<Journey> journeys){
+        if (journeys != null){
             runOnUiThread(() -> {
-                mAccountAdapter.addAccounts(accounts);
+                mJourneyAdapter.addJourneys(journeys);
                 if (isLoadMore){
                     isLoadMore = false;
                 }
@@ -213,11 +210,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void initRecycleView(){
         // initialize the adapter of RecyclerView
-        mAccountAdapter = new AccountAdapter();
-        mAccountAdapter.setListener(this::deleteOrder);
-        RecyclerView rvOrder = (RecyclerView) findViewById(R.id.rv_order);
+        mJourneyAdapter = new JourneyAdapter();
+//        mJourneyAdapter.setListener(this::deleteOrder);
+        RecyclerView rvOrder = (RecyclerView) findViewById(R.id.rv_daily_account);
         rvOrder.setLayoutManager(new LinearLayoutManager(this));
-        rvOrder.setAdapter(mAccountAdapter);
+        rvOrder.setAdapter(mJourneyAdapter);
     }
 
     private void showToastUI(String toastMessage){
@@ -225,14 +222,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void showToast(String toastMessage){
-        Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(JourneyActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
     }
 
     private void showNewJourneyAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("注意：新建一个旅程会清空所有旧旅程数据");
+        builder.setMessage("注意：新建一个旅程会自动结束该旅程");
         builder.setPositiveButton("确定", ((dialogInterface, i) -> {
-            Intent intent1 = new Intent(MainActivity.this, NewEditJourneyActivity.class);
+            Intent intent1 = new Intent(JourneyActivity.this, NewEditJourneyActivity.class);
             intent1.putExtra("type", "newJourney");
             startActivityForResult(intent1, NEW_JOURNEY);
         }));
@@ -242,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void editJourney(){
-        Intent intent1 = new Intent(MainActivity.this, NewEditJourneyActivity.class);
+        Intent intent1 = new Intent(JourneyActivity.this, NewEditJourneyActivity.class);
         intent1.putExtra("type", "editJourney");
         startActivityForResult(intent1, NEW_JOURNEY);
     }
@@ -251,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("你还未创建旅程，是否新建旅程信息？");
         builder.setPositiveButton("确定", ((dialogInterface, i) -> {
-            Intent intent1 = new Intent(MainActivity.this, NewEditJourneyActivity.class);
+            Intent intent1 = new Intent(JourneyActivity.this, NewEditJourneyActivity.class);
             intent1.putExtra("type", "newJourney");
             startActivityForResult(intent1, NEW_JOURNEY);
         }));
@@ -266,12 +263,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public void loadData() {
-        SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
-        destination = preferences.getString("destination", "记账本");
-        if (destination != null & destination.equals("记账本")){
-            newJourneyDialog();
-        }
+//        SharedPreferences preferences = getSharedPreferences("journey_data", MODE_PRIVATE);
+//        destination = preferences.getString("destination", "记账本");
+//        if (destination != null & destination.equals("记账本")){
+//            newJourneyDialog();
+//        }
     }
-
 }
-

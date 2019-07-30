@@ -1,4 +1,4 @@
-package com.example.account_book;
+package com.example.account_book.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.account_book.R;
 import com.example.account_book.util.DBHelper;
 
 import java.util.LinkedList;
@@ -109,9 +110,6 @@ public class NewEditJourneyActivity extends AppCompatActivity implements View.On
                 if (!destination.isEmpty()){
                     saveData();
                     showToast(isEdit ? "成功修改旅程" : "成功添加旅程");
-                    if (!isEdit){
-                        new DBHelper(this).emptyTable();
-                    }
                     Intent data = new Intent();
                     data.putExtra(DES, destination);
                     setResult(1, data);

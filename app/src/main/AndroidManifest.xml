@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".AccountBookApplication"
         android:allowBackup="true"
         android:configChanges="keyboardHidden|orientation|screenSize"
         android:icon="@drawable/dollar"
@@ -14,12 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.AboutActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.JourneyDetailActivity" />
+        <activity android:name=".activity.JourneyActivity" />
         <activity
-            android:name=".NewEditJourneyActivity"
+            android:name=".activity.NewEditJourneyActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".SummaryActivity" />
-        <activity android:name=".AddAccountActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.SummaryActivity" />
+        <activity android:name=".activity.AddAccountActivity" />
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

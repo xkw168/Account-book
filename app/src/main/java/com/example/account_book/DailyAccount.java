@@ -4,18 +4,18 @@ import com.example.account_book.util.TimeUtils;
 
 import java.io.Serializable;
 
-public class Account implements Serializable, Comparable<Account>{
+public class DailyAccount implements Serializable, Comparable<DailyAccount>{
 
     private int id;
     private String content;
-    private double number;
-    private String person;
+    private double amount;
+    private String currencyType;
     private String createTime;
 
-    public Account(){
+    public DailyAccount(){
         this.content = "";
-        this.number = 0.0;
-        this.person = "xkw";
+        this.amount = 0.0;
+        this.currencyType = "";
         this.createTime = TimeUtils.now();
     }
 
@@ -35,20 +35,20 @@ public class Account implements Serializable, Comparable<Account>{
         this.content = content;
     }
 
-    public double getNumber() {
-        return number;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setNumber(double number) {
-        this.number = number;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public String getPerson() {
-        return person;
+    public String getCurrencyType() {
+        return currencyType;
     }
 
-    public void setPerson(String person) {
-        this.person = person;
+    public void setCurrencyType(String currencyType) {
+        this.currencyType = currencyType;
     }
 
     public String getCreateTime() {
@@ -63,25 +63,25 @@ public class Account implements Serializable, Comparable<Account>{
     public String toString() {
         return "Time: " + this.createTime + "\n" +
                 "Content: " + this.content + "\n" +
-                "Number: " + this.number + "\n" +
-                "Person: " + this.person;
+                "Amount: " + this.amount + "\n" +
+                "Type: " + this.currencyType;
     }
 
     public String getSimpleString() {
-        return this.createTime + this.content + this.number + this.person;
+        return this.createTime + this.content + this.amount + this.currencyType;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Account){
-            Account account = (Account)obj;
-            return this.createTime.equals(account.getCreateTime());
+        if (obj instanceof DailyAccount){
+            DailyAccount dailyAccount = (DailyAccount)obj;
+            return this.createTime.equals(dailyAccount.getCreateTime());
         }
         return false;
     }
 
     @Override
-    public int compareTo(Account account) {
-        return this.createTime.compareTo(account.createTime);
+    public int compareTo(DailyAccount dailyAccount) {
+        return this.createTime.compareTo(dailyAccount.createTime);
     }
 }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddAccountActivity">
+    tools:context=".activity.AddAccountActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_new_account"
@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ToolbarPopupTheme" />
+        app:popupTheme="@style/ToolbarPopupTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
         android:id="@+id/ll_content"
@@ -71,19 +74,56 @@
                 android:layout_height="match_parent"/>
         </android.support.design.widget.TextInputLayout>
 
-
-        <Spinner
-            android:id="@+id/sp_person"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/normal_text_size"
-            android:textColor="#000000"
-            android:overlapAnchor="false"
-            android:spinnerMode="dropdown"
-            android:layout_marginStart="@dimen/normal_margin_horizontal"
-            android:layout_marginEnd="@dimen/normal_margin_horizontal">
-        </Spinner>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:gravity="center_vertical|start"
+        android:text="@string/new_account_currency"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_content"/>
+
+    <Spinner
+        android:id="@+id/sp_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:textSize="@dimen/normal_text_size"
+        android:textColor="#000000"
+        android:overlapAnchor="false"
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="wrap_content"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ll_content"
+        app:layout_constraintStart_toEndOf="@id/tv_currency">
+    </Spinner>
+
+    <TextView
+        android:id="@+id/tv_person"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:gravity="center_vertical|start"
+        android:text="@string/new_account_person"
+        android:layout_marginEnd="@dimen/normal_margin_horizontal"
+        app:layout_constraintEnd_toStartOf="@id/sp_person"
+        app:layout_constraintTop_toBottomOf="@id/ll_content"/>
+
+    <Spinner
+        android:id="@+id/sp_person"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:textSize="@dimen/normal_text_size"
+        android:textColor="#000000"
+        android:overlapAnchor="false"
+        android:spinnerMode="dropdown"
+        android:layout_marginStart="@dimen/normal_margin_horizontal"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_content">
+    </Spinner>
 
     <LinearLayout
         android:id="@+id/ll_button"
@@ -94,7 +134,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_content">
+        app:layout_constraintTop_toBottomOf="@+id/sp_currency">
 
         <android.support.design.button.MaterialButton
             android:id="@+id/bt_cancel"
@@ -114,7 +154,7 @@
             android:gravity="center"
             android:text="@string/bt_confirm"
             android:textSize="@dimen/normal_text_size"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="12dp"
             style="@style/Widget.Shrine.Button"/>
     </LinearLayout>
 

@@ -13,6 +13,10 @@ public class TimeUtils {
         return new SimpleDateFormat(DATE_FORMAT, Locale.CHINA).format(new Date());
     }
 
+    public static String today(){
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+    }
+
     public static int getCurrentMonth(){
         return Calendar.getInstance().get(Calendar.MONTH);
     }

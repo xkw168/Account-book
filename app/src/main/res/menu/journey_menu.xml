@@ -14,19 +14,13 @@
         android:title="@string/action_summary"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/action_journey_mode"
-        android:title="@string/action_journey_mode"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_new_journey"-->
+        <!--android:title="@string/action_new_journey"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/setting"
-        android:title="@string/action_setting"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/about"
-        android:title="@string/action_about"
-        app:showAsAction="never"/>
-
+    <!--<item-->
+        <!--android:id="@+id/action_edit_journey"-->
+        <!--android:title="@string/action_edit_journey"-->
+        <!--app:showAsAction="never"/>-->
 </menu>
