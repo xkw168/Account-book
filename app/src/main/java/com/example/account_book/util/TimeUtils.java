@@ -18,7 +18,8 @@ public class TimeUtils {
     }
 
     public static int getCurrentMonth(){
-        return Calendar.getInstance().get(Calendar.MONTH);
+        // since Calendar.Month starts from zero, plus 1 and return
+        return Calendar.getInstance().get(Calendar.MONTH) + 1;
     }
 
     public static int getCurrentYear(){
@@ -28,6 +29,8 @@ public class TimeUtils {
     public static void main(String[] args){
         String a = now();
         System.out.print(a + "\n");
-        System.out.print(a.substring(0, 10));
+        System.out.print(a.substring(0, 10) + "\n");
+        System.out.print(getCurrentMonth() + "\n");
+        System.out.print(getCurrentYear() + "\n");
     }
 }

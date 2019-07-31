@@ -158,7 +158,34 @@ public class DBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public List<DailyAccount> queryDailyAccount(){
+    public List<DailyAccount> queryDailyAccount(int year, int month){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String whereClause = CREATE_TIME + " >= ? and " + CREATE_TIME + " <= ?";
+        String arg1;
+        String arg2;
+        if (month < 10){
+           arg1 = year + "-0" + month + "-01 00:00";
+           arg2 = year + "-0" + month + "-31 23:59";
+        }else {
+            arg1 = year + "-" + month + "-01 00:00";
+            arg2 = year + "-" + month + "-31 23:59";
+        }
+        Cursor cursor = db.query(DAILY_ACCOUNT_TABLE, DAILY_ACCOUNT_COLUMNS, whereClause, new String[]{arg1, arg2}, null, null, null);
+
+        if (cursor.getCount() > 0) {
+            List<DailyAccount> dailyAccounts = new ArrayList<DailyAccount>(cursor.getCount());
+            while (cursor.moveToNext()) {
+                DailyAccount dailyAccount = parseDailyAccount(cursor);
+                dailyAccounts.add(dailyAccount);
+            }
+            return dailyAccounts;
+        }
+
+        return null;
+    }
+
+    public List<DailyAccount> queryAllDailyAccount(){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(DAILY_ACCOUNT_TABLE, DAILY_ACCOUNT_COLUMNS, null, null, null, null, null);

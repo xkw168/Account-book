@@ -1,5 +1,6 @@
 package com.example.account_book.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 break;
             case R.id.action_summary:
                 Intent intent1 = new Intent(MainActivity.this, SummaryActivity.class);
+                intent1.putExtra(ConstantValue.JOURNEY_ID, ConstantValue.NONE_JOURNEY);
                 startActivity(intent1);
                 break;
             case R.id.action_journey_mode:
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void getAccountInfo(){
         DBHelper db = new DBHelper(MainActivity.this);
-        updateOrderUI((ArrayList<DailyAccount>)db.queryDailyAccount());
+        updateOrderUI((ArrayList<DailyAccount>)db.queryAllDailyAccount());
         if (isRefresh){
             runOnUiThread(() -> {
                 swipeRefreshLayout.setRefreshing(false);

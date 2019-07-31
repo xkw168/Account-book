@@ -106,7 +106,8 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
         double totalPrice = 0.0;
         List<DailyAccount> dailyAccountSameDate = new LinkedList<>();
         for (DailyAccount dailyAccount : filteredDailyAccounts){
-            String time = dailyAccount.getCreateTime().substring(0, 10);
+            // get the month
+            String time = dailyAccount.getCreateTime().substring(0, 7);
             Log.e(TAG, time);
             // a new time
             if (!time.equals(lastTime) && !dailyAccountSameDate.isEmpty()){

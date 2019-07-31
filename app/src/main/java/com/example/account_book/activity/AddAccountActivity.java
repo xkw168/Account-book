@@ -59,8 +59,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_add_account);
 
         Intent intent = getIntent();
-        byte account_type = intent.getByteExtra(ConstantValue.ACCOUNT_TYPE, (byte) 0);
-        isDailyAccount = account_type == 0;
+        isDailyAccount = intent.getByteExtra(ConstantValue.ACCOUNT_TYPE, ConstantValue.NEW_DAILY_ACCOUNT) == ConstantValue.NEW_DAILY_ACCOUNT;
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_new_account);
         setSupportActionBar(toolbar);
@@ -152,7 +151,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
             Log.e(TAG, peopleList.get(i));
         }
         currencyList.add("USD");
-        currencyList.add("rmb");
+        currencyList.add("RMB");
         currencyList.add("HK");
     }
 

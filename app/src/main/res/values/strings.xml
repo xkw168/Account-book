@@ -44,8 +44,39 @@
     <string name="new_account_person">付款人：</string>
 
     <!--关于页面-->
-    <string name="about_app_introduction"></string>
+    <string name="about_app_introduction">666</string>
 
     <!--设置页面-->
+    <string name="setting">666</string>
+
+    <!--统计页面-->
+    <string name="daily_account_summary_header">本月总结</string>
+    <string name="summary_dollar">美元</string>
+    <string name="summary_rmb">人民币</string>
+    <string name="summary_hk">港币</string>
+    <string name="summary_date">日期</string>
+    <string name="summary_exchange_rate">汇率：</string>
+    <string name="summary_total">总计</string>
+    <string name="cnt_chart_header">近半年账单汇总</string>
+    <string name="choose_date">请选择日期：</string>
+    <string-array name="year">
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+    </string-array>
+    <string-array name="month">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
 
 </resources>
