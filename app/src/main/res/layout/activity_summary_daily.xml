@@ -60,7 +60,7 @@
                     android:overlapAnchor="false"
                     android:spinnerMode="dropdown"
                     android:gravity="center_horizontal"
-                    android:dropDownWidth="80dp"/>
+                    android:dropDownWidth="match_parent"/>
 
                 <Spinner
                     android:id="@+id/sp_month"
@@ -71,7 +71,7 @@
                     android:overlapAnchor="false"
                     android:spinnerMode="dropdown"
                     android:gravity="center_horizontal"
-                    android:dropDownWidth="80dp" />
+                    android:dropDownWidth="match_parent" />
             </LinearLayout>
 
             <TextView

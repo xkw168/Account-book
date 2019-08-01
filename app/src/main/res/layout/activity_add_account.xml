@@ -144,7 +144,6 @@
             android:gravity="center"
             android:text="@string/bt_cancel"
             android:textSize="@dimen/normal_text_size"
-            android:backgroundTint="@color/colorPrimary"
             style="@style/Widget.Shrine.Button"/>
 
         <android.support.design.button.MaterialButton
@@ -156,7 +155,6 @@
             android:text="@string/bt_confirm"
             android:textSize="@dimen/normal_text_size"
             android:layout_marginStart="12dp"
-            android:backgroundTint="@color/colorPrimary"
             style="@style/Widget.Shrine.Button"/>
     </LinearLayout>
 

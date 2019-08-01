@@ -254,7 +254,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         tvAmountUSD.setText(String.format(Locale.CHINA, "%.2f", amountUSD));
         tvAmountHK.setText(String.format(Locale.CHINA, "%.2f", amountHK));
         tvAmountRMB.setText(String.format(Locale.CHINA, "%.2f", amountRMB));
-        tvAmountTotal.setText(String.format(Locale.CHINA, "%.3f", amountUSD * USD_RMB + amountHK * HK_RMB + amountRMB));
+        tvAmountTotal.setText(String.format(Locale.CHINA, "%.3f RMB", amountUSD * USD_RMB + amountHK * HK_RMB + amountRMB));
     }
 
     private void setSpinnerListener(){

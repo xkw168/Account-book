@@ -18,7 +18,7 @@
 
     <!--主菜单选项-->
     <string name="action_search">搜索</string>
-    <string name="action_summary">金额统计</string>
+    <string name="action_summary">账单统计</string>
     <string name="action_journey_mode">旅行AA记账</string>
     <string name="action_setting">设置</string>
     <string name="action_about">关于</string>
@@ -44,10 +44,26 @@
     <string name="new_account_person">付款人：</string>
 
     <!--关于页面-->
-    <string name="about_app_introduction">666</string>
+    <string name="about_app_introduction">
+        &#160;&#160;本款APP主要目标为用户的日常记账功能，并在此基础上实现了月度统计、旅行记账和搜索等功能。\n\n
+        月度统计功能：\n
+        \t 1.本月使用账单总览；\n
+        \t 2.过去半年内每月账单金额统计。\n\n
+        旅行记账功能：\n
+        \t 1.在个人日常记账的基础上，新增了旅行AA记账；\n
+        \t 2.记录所有的已完成旅程数据；\n
+        \t 3.可以通过记录付款人的方式，追踪每笔订单；\n
+        \t 4.统计界面明确列出旅程总消费和个人支出以及应付/收款数额。\n
+    </string>
 
     <!--设置页面-->
-    <string name="setting">666</string>
+    <string name="setting_primary_type">主要货币：</string>
+    <string name="setting_secondary_type">次要货币：</string>
+    <string-array name="currency_type">
+        <item>USD</item>
+        <item>HK</item>
+        <item>RMB</item>
+    </string-array>
 
     <!--统计页面-->
     <string name="daily_account_summary_header">本月总结</string>

@@ -104,12 +104,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 startActivity(intent1);
                 break;
             case R.id.action_journey_mode:
-                Intent intent2 = new Intent(MainActivity.this, JourneyActivity.class);
-                startActivity(intent2);
+//                Intent intent2 = new Intent(MainActivity.this, JourneyActivity.class);
+//                startActivity(intent2);
+                showToast("敬请期待...");
                 break;
             case R.id.setting:
+                Intent intent3 = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.about:
+                Intent intent4 = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent4);
                 break;
             default:
                 break;
