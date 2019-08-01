@@ -37,6 +37,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -250,10 +251,10 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
                 }
             }
         }
-        tvAmountUSD.setText(String.valueOf(amountUSD));
-        tvAmountHK.setText(String.valueOf(amountHK));
-        tvAmountRMB.setText(String.valueOf(amountRMB));
-        tvAmountTotal.setText(String.valueOf(amountUSD * USD_RMB + amountHK * HK_RMB + amountRMB));
+        tvAmountUSD.setText(String.format(Locale.CHINA, "%.2f", amountUSD));
+        tvAmountHK.setText(String.format(Locale.CHINA, "%.2f", amountHK));
+        tvAmountRMB.setText(String.format(Locale.CHINA, "%.2f", amountRMB));
+        tvAmountTotal.setText(String.format(Locale.CHINA, "%.3f", amountUSD * USD_RMB + amountHK * HK_RMB + amountRMB));
     }
 
     private void setSpinnerListener(){
@@ -292,15 +293,17 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         int year = summaryYear;
         int month = summaryMonth;
         for (int i = 0; i < 6; i++){
-            month -= i;
+            List<DailyAccount> accounts = dbHelper.queryDailyAccount(year, month);
+            xVals.add(year + "-" + month);
+            yVals.add(calculateTotalAmount(accounts));
+            month -= 1;
             if (month <= 0){
                 month = month + 12;
                 year -= 1;
             }
-            List<DailyAccount> accounts = dbHelper.queryDailyAccount(year, month);
-            xVals.add(year + "-" + month);
-            yVals.add(calculateTotalAmount(accounts));
         }
+        Collections.reverse(xVals);
+        Collections.reverse(yVals);
         updateAmountChart(xVals, yVals);
     }
 
@@ -335,9 +338,9 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         chartAmount.setDrawGridBackground(false);
         // no description text
         chartAmount.getDescription().setEnabled(false);
-        MyMarkerView mv1 = new MyMarkerView(this, R.layout.custom_marker_view);
-        mv1.setChartView(chartAmount);
-        chartAmount.setMarker(mv1);
+//        MyMarkerView mv1 = new MyMarkerView(this, R.layout.custom_marker_view);
+//        mv1.setChartView(chartAmount);
+//        chartAmount.setMarker(mv1);
 
         // enable touch gestures
         chartAmount.setTouchEnabled(true);
@@ -351,7 +354,6 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
 
         XAxis xAxis1 = chartAmount.getXAxis();
         xAxis1.setGranularity(1);
-        xAxis1.setCenterAxisLabels(true);
         xAxis1.setGranularityEnabled(true);
         xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
 
@@ -380,6 +382,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         if (chartAmount.getData() != null && chartAmount.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) chartAmount.getData().getDataSetByIndex(0);
             set1.setValues(showVal);
+            set1.setValueTextSize(dp2Pixel(5));
             chartAmount.getData().notifyDataChanged();
             chartAmount.notifyDataSetChanged();
 
@@ -387,7 +390,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
             // create DataSet
             set1 = new BarDataSet(showVal, "每月总花费（rmb）");
             set1.setColor(Color.rgb(104, 241, 175));
-
+            set1.setValueTextSize(dp2Pixel(5));
             BarData data = new BarData(set1);
             data.setValueFormatter(new LargeValueFormatter());
 
@@ -400,25 +403,27 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
     private void updateAxis(List<String> xVals, int maxValCnt){
         // set the range of xAxis
         chartAmount.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xVals));
-        chartAmount.getXAxis().setAxisMinimum(0);
-        chartAmount.getXAxis().setAxisMaximum(xVals.size());
+//        chartAmount.getXAxis().setAxisMinimum(-0.5f);
+//        chartAmount.getXAxis().setAxisMaximum(xVals.size());
 
         // set the range of yAxis
         chartAmount.getAxisLeft().setAxisMinimum(0);
         chartAmount.getAxisLeft().setAxisMaximum(maxValCnt + 1000);
 
+        chartAmount.getBarData().setBarWidth(0.5f);
+
         // use when there at least two bar data set
         // (0.4 + 0.05) * 2 + 0.1 = 1
-//        float barWidth = 0.4f;
-//        float barSpace = 0.05f;
-//        float groupSpace = 0.1f;
-//        // specify the width each bar should have
-//        chartAmount.getBarData().setBarWidth(barWidth);
-//
-//        chartAmount.groupBars(0, groupSpace, barSpace);
-//        chartAmount.setFitBars(true);
-//
-//        chartAmount.invalidate();
+        /*float barWidth = 0.4f;
+        float barSpace = 0.05f;
+        float groupSpace = 0.1f;
+        // specify the width each bar should have
+        chartAmount.getBarData().setBarWidth(barWidth);
+
+        chartAmount.groupBars(0, groupSpace, barSpace);
+        chartAmount.setFitBars(true);*/
+
+        chartAmount.invalidate();
 
         //animation
         chartAmount.animateXY(2000, 2000);

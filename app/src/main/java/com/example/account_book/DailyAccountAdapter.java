@@ -1,9 +1,16 @@
 package com.example.account_book;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.design.card.MaterialCardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,7 +25,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
 
-    public final static String TAG = DailyAccountAdapter.class.getSimpleName();
+    private final static String TAG = DailyAccountAdapter.class.getSimpleName();
 
     /**
      * constant value
@@ -133,7 +140,7 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
 
         private ExpandableAccountSection(String title, List<DailyAccount> dailyAccounts){
             super(SectionParameters.builder()
-                    .itemResourceId(R.layout.listitem_account)
+                    .itemResourceId(R.layout.listitem_daily_account)
                     .headerResourceId(R.layout.listitem_account_header)
                     .build());
 
@@ -157,14 +164,15 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
             if (holder instanceof MyAccountHolder){
                 MyAccountHolder viewHolder = (MyAccountHolder) holder;
                 DailyAccount dailyAccount = dailyAccounts.get(position);
-                viewHolder.accountDate.setText(dailyAccount.getCreateTime());
+                // don't show year
+                viewHolder.accountDate.setText(dailyAccount.getCreateTime().substring(5, 16));
                 viewHolder.accountNumber.setText(String.format("%s", dailyAccount.getAmount()));
                 viewHolder.accountContent.setText(dailyAccount.getContent());
-                viewHolder.delete.setOnClickListener((view) -> {
-                    if (mListener != null){
-                        mListener.onDeleteListener(position);
-                    }
-                });
+                viewHolder.accountLayout.setOnLongClickListener((view -> {
+                    showPopWindows(viewHolder.accountLayout, position);
+                    return false;
+                }));
+                viewHolder.accountCurrencyType.setText(dailyAccount.getCurrencyType());
             }else if (holder instanceof FooterViewHolder){
                 FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
                 switch (loadMoreStatue){
@@ -185,6 +193,38 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
                         break;
                 }
             }
+        }
+
+        private void showPopWindows(View v, int position) {
+
+            /* pop view */
+            View mPopView = LayoutInflater.from(AccountBookApplication.getContext()).inflate(R.layout.menu_delete_popup_window, null);
+            final PopupWindow mPopWindow = new PopupWindow(mPopView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT, true);
+            /* set */
+            mPopWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            /* 这个很重要 ,获取弹窗的长宽度 */
+            mPopView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            int popupWidth = mPopView.getMeasuredWidth();
+            int popupHeight = mPopView.getMeasuredHeight();
+            /* 获取父控件的位置 */
+            int[] location = new int[2];
+            v.getLocationOnScreen(location);
+            /* 显示位置 */
+            mPopWindow.showAtLocation(v, Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1]
+                    +popupHeight/2);
+            mPopWindow.update();
+
+            mPopView.findViewById(R.id.copy).setOnClickListener(view -> {
+                Log.e(TAG, "onClick: delete");
+                if (mListener != null){
+                    mListener.onDeleteListener(position);
+                }
+
+                if (mPopWindow != null) {
+                    mPopWindow.dismiss();
+                }
+            });
         }
 
         @Override
@@ -220,16 +260,18 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
     }
 
     public static class MyAccountHolder extends RecyclerView.ViewHolder {
-        ImageView delete;
+        MaterialCardView accountLayout;
         TextView accountDate;
         TextView accountNumber;
         TextView accountContent;
+        TextView accountCurrencyType;
         MyAccountHolder(View itemView) {
             super(itemView);
-            delete = itemView.findViewById(R.id.delete_icon);
+            accountLayout = itemView.findViewById(R.id.daily_account_layout);
             accountDate = itemView.findViewById(R.id.account_date);
-            accountNumber = itemView.findViewById(R.id.account_number);
+            accountNumber = itemView.findViewById(R.id.account_amount);
             accountContent = itemView.findViewById(R.id.account_content);
+            accountCurrencyType = itemView.findViewById(R.id.account_currency_type);
         }
 
     }

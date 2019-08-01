@@ -158,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void initUI(){
         FloatingActionButton fab = findViewById(R.id.fab_main);
-        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getDrawable()), ColorStateList.valueOf(Color.parseColor("#000000")));
-        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getBackground()), ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getDrawable()), ColorStateList.valueOf(getColor(R.color.secondary_text)));
+        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getBackground()), ColorStateList.valueOf(getColor(R.color.colorPrimary)));
         fab.setOnClickListener(listener -> {
             Intent intent = new Intent(MainActivity.this, AddAccountActivity.class);
             intent.putExtra(ConstantValue.ACCOUNT_TYPE, ConstantValue.NEW_DAILY_ACCOUNT);

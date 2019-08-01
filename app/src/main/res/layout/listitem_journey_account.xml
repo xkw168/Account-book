@@ -2,7 +2,7 @@
 <android.support.design.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/device_layout"
+    android:id="@+id/daily_account_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="120dp"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/account_number"
+            android:id="@+id/account_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="100.0"

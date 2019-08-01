@@ -132,7 +132,7 @@ public class JourneyAdapter extends SectionedRecyclerViewAdapter {
 
         private ExpandableAccountSection(String title, List<Journey> Journeys){
             super(SectionParameters.builder()
-                    .itemResourceId(R.layout.listitem_account)
+                    .itemResourceId(R.layout.listitem_daily_account)
                     .headerResourceId(R.layout.listitem_account_header)
                     .build());
 
@@ -227,7 +227,7 @@ public class JourneyAdapter extends SectionedRecyclerViewAdapter {
             super(itemView);
             delete = itemView.findViewById(R.id.delete_icon);
             accountDate = itemView.findViewById(R.id.account_date);
-            accountNumber = itemView.findViewById(R.id.account_number);
+            accountNumber = itemView.findViewById(R.id.account_amount);
             accountContent = itemView.findViewById(R.id.account_content);
         }
 

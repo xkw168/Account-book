@@ -80,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/daily_account_summary_header"
                 android:textSize="@dimen/normal_text_size"
+                android:textColor="@color/text_color"
                 android:layout_below="@+id/spinner"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/normal_margin_vertical"
@@ -100,13 +101,13 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:background="@color/grey"
+                    android:background="@color/secondary_text"
                     android:layout_height="@dimen/table_line_width" />
 
                 <TableRow>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:layout_width="0dp"
@@ -114,7 +115,7 @@
                         android:layout_weight="1"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:layout_width="0dp"
@@ -125,7 +126,7 @@
                         android:text="@string/summary_dollar"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:layout_width="0dp"
@@ -136,7 +137,7 @@
                         android:text="@string/summary_hk"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:layout_width="0dp"
@@ -147,19 +148,19 @@
                         android:text="@string/summary_rmb"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                 </TableRow>
 
                 <View
                     android:layout_width="match_parent"
-                    android:background="@color/grey"
+                    android:background="@color/secondary_text"
                     android:layout_height="@dimen/table_line_width" />
 
                 <TableRow>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/summary_monthly_date"
@@ -171,7 +172,7 @@
                         android:text="@string/summary_date"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/summary_monthly_usd"
@@ -185,7 +186,7 @@
                         tools:text="@tools:sample/us_zipcodes" />
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/summary_monthly_hk"
@@ -198,7 +199,7 @@
                         android:gravity="center"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/summary_monthly_rmb"
@@ -211,19 +212,19 @@
                         android:gravity="center"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                 </TableRow>
 
                 <View
                     android:layout_width="match_parent"
-                    android:background="@color/grey"
+                    android:background="@color/secondary_text"
                     android:layout_height="@dimen/table_line_width" />
 
                 <TableRow>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:layout_width="0dp"
@@ -234,7 +235,7 @@
                         android:text="@string/summary_total"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/summary_monthly_total"
@@ -247,14 +248,14 @@
                         android:gravity="center"/>
                     <View
                         android:layout_width="@dimen/table_line_width"
-                        android:background="@color/grey"
+                        android:background="@color/secondary_text"
                         android:layout_height="match_parent" />
 
                 </TableRow>
 
                 <View
                     android:layout_width="match_parent"
-                    android:background="@color/grey"
+                    android:background="@color/secondary_text"
                     android:layout_height="@dimen/table_line_width" />
 
             </TableLayout>

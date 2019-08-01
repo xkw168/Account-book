@@ -2,8 +2,11 @@ package com.example.account_book.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -168,6 +171,9 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
 
         btCancel.setOnClickListener(this);
         btSubmit.setOnClickListener(this);
+
+        DrawableCompat.setTintList(DrawableCompat.wrap(btCancel.getBackground()), ColorStateList.valueOf(getColor(R.color.colorPrimary)));
+//        btCancel.getBackground().setColorFilter(getColor(R.color.colorPrimary));
 
         tvTime.setText(String.format("时间: %s", TimeUtils.now()));
 
