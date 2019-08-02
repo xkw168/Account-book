@@ -2,7 +2,7 @@
 
 一个旅行记账软件，适合多人AA出行。
 
-注：由于需求变化，现在最新版APP为个人日常记账本，支持多种货币和月度统计功能，详细介绍请看[这里](https://github.com/xkw168/account_book/blob/master/README_NEW.md)
+注：由于需求变化，现在最新版APP为个人日常记账本，支持多种货币和月度统计功能，新版APP详细介绍请看[这里](https://github.com/xkw168/account_book/blob/master/README_NEW.md)
 
 ## 软件下载
 
