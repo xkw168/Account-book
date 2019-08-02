@@ -127,12 +127,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (requestCode == ADD_ACCOUNT){
             //增加新的账单
             if (resultCode == 1){
-                final DailyAccount newDailyAccount = new DailyAccount();
-                newDailyAccount.setContent(data.getStringExtra(AddAccountActivity.CONTENT));
-                newDailyAccount.setAmount(data.getDoubleExtra(AddAccountActivity.AMOUNT, 0.0));
-                newDailyAccount.setCreateTime(data.getStringExtra(AddAccountActivity.TIME));
+//                final DailyAccount newDailyAccount = new DailyAccount();
+//                newDailyAccount.setContent(data.getStringExtra(AddAccountActivity.CONTENT));
+//                newDailyAccount.setAmount(data.getDoubleExtra(AddAccountActivity.AMOUNT, 0.0));
+//                newDailyAccount.setCreateTime(data.getStringExtra(AddAccountActivity.TIME));
+//                newDailyAccount.setIncome(data.getBooleanExtra(AddAccountActivity.IS_INCOME, false));
                 showToast("成功添加账单");
-                mDailyAccountAdapter.addAccount(newDailyAccount);
+//                mDailyAccountAdapter.addAccount(newDailyAccount);
             }else {
                 showToast("未添加账单");
             }

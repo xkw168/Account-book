@@ -11,12 +11,14 @@ public class DailyAccount implements Serializable, Comparable<DailyAccount>{
     private double amount;
     private String currencyType;
     private String createTime;
+    private boolean isIncome;
 
     public DailyAccount(){
         this.content = "";
         this.amount = 0.0;
         this.currencyType = "";
         this.createTime = TimeUtils.now();
+        this.isIncome = false;
     }
 
     public int getId() {
@@ -57,6 +59,14 @@ public class DailyAccount implements Serializable, Comparable<DailyAccount>{
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isIncome(){
+        return this.isIncome;
+    }
+
+    public void setIncome(boolean isIncome){
+        this.isIncome = isIncome;
     }
 
     @Override

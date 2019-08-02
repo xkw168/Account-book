@@ -42,6 +42,20 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
+            android:id="@+id/account_in_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收入"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/large_text_size"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/normal_margin_vertical"
+            android:layout_marginBottom="@dimen/normal_margin_vertical"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            app:layout_constraintTop_toBottomOf="@id/account_date"
+            app:layout_constraintEnd_toStartOf="@id/account_amount"/>
+
+        <TextView
             android:id="@+id/account_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

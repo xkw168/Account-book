@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper{
     private static final String TAG = DBHelper.class.getSimpleName();
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     // Database Name
     private static final String DATABASE_NAME = "ACCOUNT_DATA";
 
@@ -34,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper{
     private static final String END_DATE = "end_date";
     private static final String PERSON = "person";
     private static final String AMOUNT = "amount";
+    private static final String IS_INCOME = "is_income";
     private static final String TOTAL_AMOUNT = "total_amount";
     private static final String DESTINATION = "destination";
     private static final String CONTENT = "content";
@@ -41,7 +42,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
     private static final String[] JOURNEY_ACCOUNT_COLUMNS = {ID, CREATE_TIME, CURRENCY_TYPE, AMOUNT, CONTENT, PERSON, JOURNEY_ID};
     private static final String[] JOURNEY_COLUMNS = {ID, START_DATE, END_DATE, DESTINATION, PERSON, TOTAL_AMOUNT};
-    private static final String[] DAILY_ACCOUNT_COLUMNS = {ID, CREATE_TIME, CURRENCY_TYPE, AMOUNT, CONTENT};
+    private static final String[] DAILY_ACCOUNT_COLUMNS = {ID, CREATE_TIME, CURRENCY_TYPE, AMOUNT, CONTENT, IS_INCOME};
 
     //Constructor
     public DBHelper(Context context){
@@ -55,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper{
                 + CREATE_TIME + " TEXT NOT NULL,"
                 + CURRENCY_TYPE + " TEXT NOT NULL,"
                 + AMOUNT + " REAL NOT NULL,"
+                + IS_INCOME + " BOOLEAN NOT NULL,"
                 + CONTENT + " TEXT)";
         String journeyTable = "CREATE TABLE " + JOURNEY_TABLE + "("
                 + ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
@@ -117,6 +119,7 @@ public class DBHelper extends SQLiteOpenHelper{
         values.put(CURRENCY_TYPE, dailyAccount.getCurrencyType());
         values.put(AMOUNT, dailyAccount.getAmount());
         values.put(CONTENT, dailyAccount.getContent());
+        values.put(IS_INCOME, dailyAccount.isIncome());
         long id = db.insert(DAILY_ACCOUNT_TABLE, null, values);
         Log.e(TAG, "addDailyAccount: " + id);
         db.close();
@@ -243,6 +246,8 @@ public class DBHelper extends SQLiteOpenHelper{
         dailyAccount.setCurrencyType(cursor.getString(cursor.getColumnIndex(CURRENCY_TYPE)));
         dailyAccount.setAmount(Double.valueOf(cursor.getString(cursor.getColumnIndex(AMOUNT))));
         dailyAccount.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
+        // in SQL, boolean is stored in 0 & 1
+        dailyAccount.setIncome(cursor.getString(cursor.getColumnIndex(IS_INCOME)).equals("1"));
         return dailyAccount;
     }
 

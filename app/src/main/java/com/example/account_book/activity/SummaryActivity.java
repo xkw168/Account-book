@@ -14,10 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.account_book.AccountBookApplication;
 import com.example.account_book.ConstantValue;
 import com.example.account_book.DailyAccount;
 import com.example.account_book.JourneyAccount;
-import com.example.account_book.MyMarkerView;
 import com.example.account_book.R;
 import com.example.account_book.util.DBHelper;
 import com.example.account_book.util.TimeUtils;
@@ -39,7 +39,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -63,7 +62,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
     private int summaryYear;
     private int summaryMonth;
     private double USD_RMB;
-    private double HK_RMB;
+    private double HKD_RMB;
 
     /**
      * UI(Daily)
@@ -71,9 +70,12 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
     private BarChart chartAmount;
     private Spinner spYear;
     private Spinner spMonth;
-    private TextView tvAmountUSD;
-    private TextView tvAmountHK;
-    private TextView tvAmountRMB;
+    private TextView tvAmountUSDOut;
+    private TextView tvAmountHKOut;
+    private TextView tvAmountRMBOut;
+    private TextView tvAmountUSDIn;
+    private TextView tvAmountHKIn;
+    private TextView tvAmountRMBIn;
     private TextView tvAmountTotal;
     private TextView tvExchangeRate;
 
@@ -85,7 +87,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         journeyID = intent.getByteExtra(ConstantValue.JOURNEY_ID, ConstantValue.NONE_JOURNEY);
         isDailySummary = journeyID == -99;
         USD_RMB = 6.9;
-        HK_RMB = 0.8;
+        HKD_RMB = 0.8;
 
         if (isDailySummary){
             setContentView(R.layout.activity_summary_daily);
@@ -119,9 +121,14 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
     }
 
     private void initUIDaily(){
-        tvAmountUSD = (TextView)findViewById(R.id.summary_monthly_usd);
-        tvAmountHK = (TextView)findViewById(R.id.summary_monthly_hk);
-        tvAmountRMB = (TextView)findViewById(R.id.summary_monthly_rmb);
+        tvAmountUSDOut = (TextView)findViewById(R.id.summary_monthly_usd_out);
+        tvAmountHKOut = (TextView)findViewById(R.id.summary_monthly_hk_out);
+        tvAmountRMBOut = (TextView)findViewById(R.id.summary_monthly_rmb_out);
+
+        tvAmountUSDIn = (TextView)findViewById(R.id.summary_monthly_usd_in);
+        tvAmountHKIn = (TextView)findViewById(R.id.summary_monthly_hk_in);
+        tvAmountRMBIn = (TextView)findViewById(R.id.summary_monthly_rmb_in);
+
         tvAmountTotal = (TextView)findViewById(R.id.summary_monthly_total);
         tvExchangeRate = (TextView)findViewById(R.id.summary_exchange_rate);
 
@@ -153,7 +160,6 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
             // silently fail...
             Log.e(TAG, e.toString());
         }
-
 
         setSpinnerListener();
     }
@@ -232,29 +238,83 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         // get the dailyAccount during corresponding time
         DBHelper db = new DBHelper(SummaryActivity.this);
         ArrayList<DailyAccount> dailyAccounts = (ArrayList<DailyAccount>)db.queryDailyAccount(summaryYear, summaryMonth);
-        double amountUSD = 0, amountHK = 0, amountRMB = 0;
+        double amountUSDOut = 0, amountHKOut = 0, amountRMBOut = 0;
+        double amountUSDIn = 0, amountHKIn = 0, amountRMBIn = 0;
         if (dailyAccounts != null){
             for (int i = 0; i < dailyAccounts.size(); i++){
                 DailyAccount account = dailyAccounts.get(i);
                 switch (account.getCurrencyType()){
                     case "USD":
-                        amountUSD += account.getAmount();
+                        if (account.isIncome()){
+                            amountUSDIn += account.getAmount();
+                        }else {
+                            amountUSDOut += account.getAmount();
+                        }
                         break;
                     case "HK":
-                        amountHK += account.getAmount();
+                        if (account.isIncome()){
+                            amountHKOut += account.getAmount();
+                        }else {
+                            amountHKOut += account.getAmount();
+                        }
                         break;
                     case "RMB":
-                        amountRMB += account.getAmount();
+                        if (account.isIncome()){
+                            amountRMBIn += account.getAmount();
+                        }else {
+                            amountRMBOut += account.getAmount();
+                        }
                         break;
                     default:
                         break;
                 }
             }
         }
-        tvAmountUSD.setText(String.format(Locale.CHINA, "%.2f", amountUSD));
-        tvAmountHK.setText(String.format(Locale.CHINA, "%.2f", amountHK));
-        tvAmountRMB.setText(String.format(Locale.CHINA, "%.2f", amountRMB));
-        tvAmountTotal.setText(String.format(Locale.CHINA, "%.3f RMB", amountUSD * USD_RMB + amountHK * HK_RMB + amountRMB));
+        tvAmountUSDOut.setText(String.format(Locale.CHINA, "%.2f", amountUSDOut));
+        tvAmountHKOut.setText(String.format(Locale.CHINA, "%.2f", amountHKOut));
+        tvAmountRMBOut.setText(String.format(Locale.CHINA, "%.2f", amountRMBOut));
+
+        tvAmountUSDIn.setText(String.format(Locale.CHINA, "%.2f", amountUSDIn));
+        tvAmountHKIn.setText(String.format(Locale.CHINA, "%.2f", amountHKIn));
+        tvAmountRMBIn.setText(String.format(Locale.CHINA, "%.2f", amountRMBIn));
+
+        double totalRMB =
+                (amountUSDOut - amountUSDIn) * USD_RMB +
+                (amountHKOut - amountHKIn) * HKD_RMB +
+                (amountRMBOut - amountRMBIn);
+
+        StringBuilder builder = new StringBuilder();
+
+        switch (AccountBookApplication.getPrimaryCurrency()){
+            case "USD":
+                builder.append(String.format(Locale.CHINA, "%.3f USD", totalRMB / USD_RMB));
+                break;
+            case "HK":
+                builder.append(String.format(Locale.CHINA, "%.3f HK", totalRMB / HKD_RMB));
+                break;
+            case "RMB":
+                builder.append(String.format(Locale.CHINA, "%.3f RMB", totalRMB));
+                break;
+            default:
+                break;
+        }
+        if (!AccountBookApplication.getPrimaryCurrency().equals(AccountBookApplication.getSecondaryCurrency())){
+            builder.append("\n");
+            switch (AccountBookApplication.getSecondaryCurrency()){
+                case "USD":
+                    builder.append(String.format(Locale.CHINA, "%.3f USD", totalRMB / USD_RMB));
+                    break;
+                case "HK":
+                    builder.append(String.format(Locale.CHINA, "%.3f HK", totalRMB / HKD_RMB));
+                    break;
+                case "RMB":
+                    builder.append(String.format(Locale.CHINA, "%.3f RMB", totalRMB));
+                    break;
+                default:
+                    break;
+            }
+        }
+        tvAmountTotal.setText(builder.toString());
     }
 
     private void setSpinnerListener(){
@@ -313,17 +373,29 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
             for (DailyAccount a : accounts){
                 switch (a.getCurrencyType()){
                     case "USD":
-                        temp += a.getAmount() * USD_RMB;
+                        temp += a.isIncome() ? -a.getAmount() * USD_RMB : a.getAmount() * USD_RMB;
                         break;
                     case "HK":
-                        temp += a.getAmount() * HK_RMB;
+                        temp += a.isIncome() ? -a.getAmount() * HKD_RMB : a.getAmount() * HKD_RMB;
                         break;
                     case "RMB":
-                        temp += a.getAmount();
+                        temp += a.isIncome() ? -a.getAmount() : a.getAmount();
                         break;
                     default:
                         break;
                 }
+            }
+            switch (AccountBookApplication.getPrimaryCurrency()){
+                case "USD":
+                    temp /= USD_RMB;
+                    break;
+                case "HK":
+                    temp /= HKD_RMB;
+                    break;
+                case "RMB":
+                    break;
+                default:
+                    break;
             }
             return temp;
         }
@@ -388,8 +460,8 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
 
         } else {
             // create DataSet
-            set1 = new BarDataSet(showVal, "每月总花费（rmb）");
-            set1.setColor(Color.rgb(104, 241, 175));
+            set1 = new BarDataSet(showVal, String.format("每月总花费（%s）", AccountBookApplication.getPrimaryCurrency()));
+            set1.setColor(getColor(R.color.colorPrimary));
             set1.setValueTextSize(dp2Pixel(5));
             BarData data = new BarData(set1);
             data.setValueFormatter(new LargeValueFormatter());

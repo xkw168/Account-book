@@ -110,7 +110,6 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
         Collections.sort(filteredDailyAccounts);
         Collections.reverse(filteredDailyAccounts);
         String lastTime = "";
-        double totalPrice = 0.0;
         List<DailyAccount> dailyAccountSameDate = new LinkedList<>();
         for (DailyAccount dailyAccount : filteredDailyAccounts){
             // get the month
@@ -118,16 +117,14 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
             Log.e(TAG, time);
             // a new time
             if (!time.equals(lastTime) && !dailyAccountSameDate.isEmpty()){
-                mAdapter.addSection(new ExpandableAccountSection(lastTime + "(" + totalPrice + ")", dailyAccountSameDate));
+                mAdapter.addSection(new ExpandableAccountSection(lastTime, dailyAccountSameDate));
                 dailyAccountSameDate = new LinkedList<>();
-                totalPrice = 0.0;
             }
             dailyAccountSameDate.add(dailyAccount);
-            totalPrice += dailyAccount.getAmount();
             lastTime = time;
         }
         if (!dailyAccountSameDate.isEmpty()){
-            mAdapter.addSection(new ExpandableAccountSection(lastTime + "(" + totalPrice + ")", dailyAccountSameDate));
+            mAdapter.addSection(new ExpandableAccountSection(lastTime, dailyAccountSameDate));
         }
         notifyDataSetChanged();
     }
@@ -173,6 +170,10 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
                     return false;
                 }));
                 viewHolder.accountCurrencyType.setText(dailyAccount.getCurrencyType());
+                viewHolder.accountInOut.setText(dailyAccount.isIncome() ? R.string.account_in : R.string.account_out);
+                viewHolder.accountInOut.setTextColor(
+                        dailyAccount.isIncome() ?
+                                AccountBookApplication.getContext().getColor(R.color.colorPrimary) : Color.RED);
             }else if (holder instanceof FooterViewHolder){
                 FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
                 switch (loadMoreStatue){
@@ -265,6 +266,7 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
         TextView accountNumber;
         TextView accountContent;
         TextView accountCurrencyType;
+        TextView accountInOut;
         MyAccountHolder(View itemView) {
             super(itemView);
             accountLayout = itemView.findViewById(R.id.daily_account_layout);
@@ -272,6 +274,7 @@ public class DailyAccountAdapter extends SectionedRecyclerViewAdapter {
             accountNumber = itemView.findViewById(R.id.account_amount);
             accountContent = itemView.findViewById(R.id.account_content);
             accountCurrencyType = itemView.findViewById(R.id.account_currency_type);
+            accountInOut = itemView.findViewById(R.id.account_in_out);
         }
 
     }

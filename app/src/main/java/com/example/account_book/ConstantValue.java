@@ -8,4 +8,8 @@ public class ConstantValue {
 
     public final static String JOURNEY_ID = "journey_id";
     public final static byte NONE_JOURNEY = -99;
+
+    public final static String CACHE_DATA = "user_preference";
+    public final static String PRIMARY_CURRENCY = "primary_currency";
+    public final static String SECONDARY_CURRENCY = "secondary_currency";
 }
