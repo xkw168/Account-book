@@ -20,6 +20,7 @@ import com.example.account_book.DailyAccount;
 import com.example.account_book.JourneyAccount;
 import com.example.account_book.R;
 import com.example.account_book.util.DBHelper;
+import com.example.account_book.util.RateUtil;
 import com.example.account_book.util.TimeUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -35,6 +36,12 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +50,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import static com.example.account_book.AccountBookApplication.HKD_RMB;
+import static com.example.account_book.AccountBookApplication.USD_RMB;
 import static com.example.account_book.AccountBookApplication.getContext;
 
 public class SummaryActivity extends AppCompatActivity implements OnChartValueSelectedListener, OnChartGestureListener {
@@ -61,8 +70,6 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
     private byte journeyID;
     private int summaryYear;
     private int summaryMonth;
-    private double USD_RMB;
-    private double HKD_RMB;
 
     /**
      * UI(Daily)
@@ -86,8 +93,6 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         Intent intent = getIntent();
         journeyID = intent.getByteExtra(ConstantValue.JOURNEY_ID, ConstantValue.NONE_JOURNEY);
         isDailySummary = journeyID == -99;
-        USD_RMB = 6.9;
-        HKD_RMB = 0.8;
 
         if (isDailySummary){
             setContentView(R.layout.activity_summary_daily);
@@ -134,8 +139,6 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
 
         spMonth = (Spinner)findViewById(R.id.sp_month);
         spYear = (Spinner)findViewById(R.id.sp_year);
-
-        tvExchangeRate.setText("参考汇率：\n美元-人民币 = 1 : 6.9\n港币-人民币 = 1 : 0.8");
         
         ArrayList<Integer> yearList = new ArrayList<>(5);
         for (int y = 2019; y < summaryYear + 2; y ++){
@@ -270,6 +273,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
                 }
             }
         }
+
         tvAmountUSDOut.setText(String.format(Locale.CHINA, "%.2f", amountUSDOut));
         tvAmountHKOut.setText(String.format(Locale.CHINA, "%.2f", amountHKOut));
         tvAmountRMBOut.setText(String.format(Locale.CHINA, "%.2f", amountRMBOut));
@@ -277,6 +281,8 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         tvAmountUSDIn.setText(String.format(Locale.CHINA, "%.2f", amountUSDIn));
         tvAmountHKIn.setText(String.format(Locale.CHINA, "%.2f", amountHKIn));
         tvAmountRMBIn.setText(String.format(Locale.CHINA, "%.2f", amountRMBIn));
+
+        tvExchangeRate.setText(String.format(Locale.CHINA, "参考汇率：\n美元-人民币 = 1 : %.3f\n港币-人民币 = 1 : %.3f", USD_RMB, HKD_RMB));
 
         double totalRMB =
                 (amountUSDOut - amountUSDIn) * USD_RMB +
@@ -500,6 +506,18 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         //animation
         chartAmount.animateXY(2000, 2000);
     }
+
+//    public void queryRate(){
+//        RateUtil.setListener((USD_RMB1, HKD_RMB1) -> {
+//            this.USD_RMB = USD_RMB1 / 100;
+//            this.HKD_RMB = HKD_RMB1 / 100;
+//            runOnUiThread(() -> {
+//                updateData();
+//                updateChartData();
+//            });
+//        });
+//        RateUtil.queryRate();
+//    }
 
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
