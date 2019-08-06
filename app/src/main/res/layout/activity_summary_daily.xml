@@ -124,6 +124,7 @@
                         android:background="@color/secondary_text" />
 
                     <TextView
+                        android:id="@+id/tv_usd"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -137,6 +138,7 @@
                         android:background="@color/secondary_text" />
 
                     <TextView
+                        android:id="@+id/tv_hk"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -150,6 +152,7 @@
                         android:background="@color/secondary_text" />
 
                     <TextView
+                        android:id="@+id/tv_rmb"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -212,6 +215,7 @@
                         android:layout_weight="1"
                         android:ellipsize="marquee"
                         android:gravity="center"
+                        android:visibility="visible"
                         android:singleLine="true"
                         android:textSize="@dimen/normal_text_size" />
 

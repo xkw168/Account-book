@@ -2,8 +2,6 @@ package com.example.account_book.util;
 
 import android.util.Log;
 
-import com.example.account_book.AccountBookApplication;
-
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,5 +60,13 @@ public class RateUtil {
                 Log.e(TAG, e.toString());
             }
         }).start();
+    }
+
+    public static void main(String[] args){
+        setListener((USD_RMB, HKD_RMB) -> {
+            System.out.print("USD - RMB: " + USD_RMB + "\n");
+            System.out.print("HKD - RMB: " + HKD_RMB);
+        });
+        queryRate();
     }
 }

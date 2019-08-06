@@ -279,28 +279,4 @@ public class DBHelper extends SQLiteOpenHelper{
         journey.setEndDate(cursor.getString(cursor.getColumnIndex(END_DATE)));
         return journey;
     }
-
-    public static void main(String[] args){
-        try {
-            Connection connection = Jsoup.connect("http://srh.bankofchina.com/search/whpj/search.jsp");
-            connection.data("erectDate", "");
-            connection.data("nothing", "");
-            connection.data("pjname", "1315");
-            Document doc = connection.get();
-//            System.out.print(doc + "\n");
-
-            Elements elements = doc.select("div[class='BOC_main publish'] > table > tbody > tr");
-//            div = soup.find('div', attrs={'class': 'BOC_main publish'})
-//            table = div.find('table')
-//            tr = table.find_all('tr')
-//            td = tr[1].find_all('td')
-//            print(td[0].get_text(), td[6].get_text(), td[3].get_text())
-            System.out.print(elements + "\n");
-            Elements elements1 = elements.get(1).select("td");
-            System.out.print(elements1.get(0).text() + "\n" +elements1.get(6).text() + "\n" + elements1.get(3).text());
-
-        }catch (IOException e){
-            Log.e(TAG, "main: ");
-        }
-    }
 }

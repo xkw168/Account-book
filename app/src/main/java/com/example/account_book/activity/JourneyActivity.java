@@ -1,9 +1,7 @@
 package com.example.account_book.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -21,7 +19,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.account_book.Journey;
-import com.example.account_book.Journey;
 import com.example.account_book.JourneyAdapter;
 import com.example.account_book.R;
 import com.example.account_book.util.DBHelper;
@@ -35,7 +32,6 @@ public class JourneyActivity extends AppCompatActivity implements SearchView.OnQ
     /**
      *  constant value
      */
-    private final static int ADD_ACCOUNT = 0x0001;
     private final static int NEW_JOURNEY = 0x0002;
 
     /**
@@ -97,12 +93,6 @@ public class JourneyActivity extends AppCompatActivity implements SearchView.OnQ
             case android.R.id.home:
                 onBackPressed();
                 break;
-//            case R.id.action_new_journey:
-//                showNewJourneyAlertDialog();
-//                break;
-//            case R.id.action_edit_journey:
-//                editJourney();
-//                break;
             case R.id.action_summary:
                 Intent intent2 = new Intent(JourneyActivity.this, SummaryActivity.class);
                 startActivity(intent2);
@@ -115,20 +105,7 @@ public class JourneyActivity extends AppCompatActivity implements SearchView.OnQ
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_ACCOUNT){
-//            //增加新的账单
-//            if (resultCode == 1){
-//                final Journey newJourney = new Journey();
-//                newJourney.setContent(data.getStringExtra(AddAccountActivity.CONTENT));
-//                newJourney.setAmount(data.getDoubleExtra(AddAccountActivity.AMOUNT, 0.0));
-//                newJourney.setCurrencyType(data.getStringExtra(AddAccountActivity.PERSON));
-//                newJourney.setCreateTime(data.getStringExtra(AddAccountActivity.TIME));
-//                showToast("成功添加账单");
-//                mJourneyAdapter.addJourney(newJourney);
-//            }else {
-//                showToast("未添加账单");
-//            }
-        }else if (requestCode == NEW_JOURNEY){
+        if (requestCode == NEW_JOURNEY){
             if (resultCode == 1){
 //                destination = data.getStringExtra(NewEditJourneyActivity.DES);
 //                Objects.requireNonNull(getSupportActionBar()).setTitle(destination);
@@ -155,15 +132,11 @@ public class JourneyActivity extends AppCompatActivity implements SearchView.OnQ
 
     private void initUI(){
         FloatingActionButton fab = findViewById(R.id.fab_main);
-        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getDrawable()), ColorStateList.valueOf(Color.parseColor("#000000")));
-        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getBackground()), ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getDrawable()), ColorStateList.valueOf(getColor(R.color.secondary_text)));
+        DrawableCompat.setTintList(DrawableCompat.wrap(fab.getBackground()), ColorStateList.valueOf(getColor(R.color.colorPrimary)));
         fab.setOnClickListener(listener -> {
-//            if (destination.equals("记账本")){
-//                showToast("请先添加旅程");
-//            }else {
-//                Intent intent = new Intent(JourneyActivity.this, NewEditJourneyActivity.class);
-//                startActivityForResult(intent, ADD_ACCOUNT);
-//            }
+            Intent intent = new Intent(JourneyActivity.this, NewEditJourneyActivity.class);
+            startActivityForResult(intent, NEW_JOURNEY);
         });
     }
 
@@ -174,7 +147,7 @@ public class JourneyActivity extends AppCompatActivity implements SearchView.OnQ
 
     private void getAccountInfo(){
         DBHelper db = new DBHelper(JourneyActivity.this);
-        updateOrderUI((ArrayList<Journey>)db.queryJourney());
+        updateJourneyUI((ArrayList<Journey>)db.queryJourney());
         if (isRefresh){
             runOnUiThread(() -> {
                 swipeRefreshLayout.setRefreshing(false);
@@ -184,20 +157,7 @@ public class JourneyActivity extends AppCompatActivity implements SearchView.OnQ
         }
     }
 
-//    private void deleteOrder(final int position){
-//        Journey Journey = mJourneyAdapter.getItem(position);
-//        DBHelper db = new DBHelper(JourneyActivity.this);
-//        db.deleteAccount(Journey.getId());
-//        mJourneyAdapter.removeItem(position);
-//        mJourneyAdapter.notifyDataSetChanged();
-//        showToast("账单已删除");
-//    }
-
-    private void updateAccount(){
-
-    }
-
-    public void updateOrderUI(final ArrayList<Journey> journeys){
+    public void updateJourneyUI(final ArrayList<Journey> journeys){
         if (journeys != null){
             runOnUiThread(() -> {
                 mJourneyAdapter.addJourneys(journeys);
