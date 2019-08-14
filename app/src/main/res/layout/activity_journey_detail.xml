@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activity.JourneyDetailActivity">
 
+    <include
+        android:id="@+id/toolbar_journey_detail"
+        layout="@layout/tool_bar"/>
+
 </android.support.constraint.ConstraintLayout>

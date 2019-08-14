@@ -6,16 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activity.SummaryActivity">
 
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/toolbar_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ToolbarPopupTheme"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        layout="@layout/tool_bar"/>
 
     <ScrollView
         android:layout_width="match_parent"
