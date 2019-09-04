@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.account_book.AccountBookApplication;
@@ -88,6 +89,7 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
     private TextView tvAmountRMBIn;
     private TextView tvAmountTotal;
     private TextView tvExchangeRate;
+    private TableLayout tlMonthlyReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +145,8 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
 
         tvAmountTotal = (TextView)findViewById(R.id.summary_monthly_total);
         tvExchangeRate = (TextView)findViewById(R.id.summary_exchange_rate);
+
+        tlMonthlyReport = (TableLayout)findViewById(R.id.monthly_table);
 
         spMonth = (Spinner)findViewById(R.id.sp_month);
         spYear = (Spinner)findViewById(R.id.sp_year);
@@ -289,22 +293,40 @@ public class SummaryActivity extends AppCompatActivity implements OnChartValueSe
         tvAmountHKIn.setText(String.format(Locale.CHINA, "%.2f", amountHKIn));
         tvAmountRMBIn.setText(String.format(Locale.CHINA, "%.2f", amountRMBIn));
 
+        if (amountUSDIn == 0 && amountUSDOut == 0 && amountHKIn == 0 && amountHKOut == 0 && amountRMBIn == 0 && amountRMBOut == 0){
+            tlMonthlyReport.setVisibility(View.GONE);
+        }else {
+            tlMonthlyReport.setVisibility(View.VISIBLE);
+        }
+
         if (amountUSDIn == 0 && amountUSDOut == 0){
             tvUSD.setVisibility(View.GONE);
             tvAmountUSDIn.setVisibility(View.GONE);
             tvAmountUSDOut.setVisibility(View.GONE);
+        }else {
+            tvUSD.setVisibility(View.VISIBLE);
+            tvAmountUSDIn.setVisibility(View.VISIBLE);
+            tvAmountUSDOut.setVisibility(View.VISIBLE);
         }
 
         if (amountHKIn == 0 && amountHKOut == 0){
             tvHK.setVisibility(View.GONE);
             tvAmountHKIn.setVisibility(View.GONE);
             tvAmountHKOut.setVisibility(View.GONE);
+        }else {
+            tvHK.setVisibility(View.VISIBLE);
+            tvAmountHKIn.setVisibility(View.VISIBLE);
+            tvAmountHKOut.setVisibility(View.VISIBLE);
         }
 
         if (amountRMBIn == 0 && amountRMBOut == 0){
             tvRMB.setVisibility(View.GONE);
             tvAmountRMBIn.setVisibility(View.GONE);
             tvAmountRMBOut.setVisibility(View.GONE);
+        }else {
+            tvRMB.setVisibility(View.VISIBLE);
+            tvAmountRMBIn.setVisibility(View.VISIBLE);
+            tvAmountRMBOut.setVisibility(View.VISIBLE);
         }
 
         tvExchangeRate.setText(String.format(Locale.CHINA, "参考汇率：\n美元-人民币 = 1 : %.3f\n港币-人民币 = 1 : %.3f", USD_RMB, HKD_RMB));
