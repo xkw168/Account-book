@@ -20,7 +20,9 @@
 
 以日为单位，显示本次旅程所有账单
 
-![软件首页](img/first.png)
+<div  align="center">    
+<img src="img/first.png" width = "320" height = "640" alt="软件首页"/>
+</div>
 
 2、新建旅程
 
@@ -30,7 +32,9 @@
 
 最后提交新的旅程
 
-![新建旅程](img/new_journey.png)
+<div  align="center">    
+<img src="img/new_journey.png" width = "320" height = "640" alt="新建旅程"/>
+</div>
 
 3、新建账单
 
@@ -40,7 +44,9 @@
 
 备注选填（可以简短描述一下该笔支出）
 
-![新建账单](img/new_account.png)
+<div  align="center">    
+<img src="img/new_account.png" width = "320" height = "640" alt="新建账单"/>
+</div>
 
 ## 声明
 
