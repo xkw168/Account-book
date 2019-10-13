@@ -1,4 +1,4 @@
-# account_book 新版
+# account_book
 
 [中文版](./README_ch.md)
 
