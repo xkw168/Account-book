@@ -56,7 +56,7 @@ public class RateUtil {
                 if (mListener != null){
                     mListener.onFinishListener(USD_RMB, HKD_RMB);
                 }
-            }catch (IOException e){
+            }catch (IOException | IndexOutOfBoundsException e){
                 Log.e(TAG, e.toString());
             }
         }).start();
