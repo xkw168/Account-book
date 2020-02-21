@@ -1,50 +1,40 @@
 # account_book
 
-一个旅行记账软件，适合多人AA出行。
+[中文版](./README_ch.md)
 
-注：由于需求变化，现在最新版APP为个人日常记账本，支持多种货币和月度统计功能，新版APP详细介绍请看[这里](https://github.com/xkw168/account_book/blob/master/README_NEW.md)
+[English version](./README.md)
 
-## 软件下载
-
----
+## Download
 
 [here](https://github.com/xkw168/account_book/releases)
 
-## 软件使用说明
+## Introduction
 
----
+1、Main Page(show all the transactions you have)
 
-1、软件首页如图 
+<img src="./img/main_activity.png" alt="软件首页" style="zoom:33%;" />
 
-支持根据关键词搜索账单，菜单栏可以统计金额和新建旅程，新建旅程之后，通过+可以新建账单
+2、create a new transaction
 
-以日为单位，显示本次旅程所有账单
+* the APP will generate the time automatically
+* amount must be filled in
+* comment(briefly describe this transaction, optional)
+* currency & paid/received
 
-![软件首页](img/first.png)
+<img src="./img/new_daily_account.png" alt="新建每日账单" style="zoom:33%;" />
 
-2、新建旅程
+3、Setting
 
-首先为该旅程起一个拉风的名字
+set the primary and secondary currency
 
-然后添加所有的旅途小伙伴（为了后面记账方便）
+<img src="./img/setting_account.jpg" alt="设置" style="zoom:33%;" />
 
-最后提交新的旅程
+4、 monthly summary
 
-![新建旅程](img/new_journey.png)
+display the statistic data in both table and histogram, the app will query the latest currency exchange rate at **run time**
 
-3、新建账单
+<img src="./img/summary_activity.jpg" alt="月度总结" style="zoom:33%;" />
 
-时间是系统自动生成的
+## Declaration
 
-金额和付款人是必填项（这里默认金额都是所有人AA）
-
-备注选填（可以简短描述一下该笔支出）
-
-![新建账单](img/new_account.png)
-
-## 声明
-
----
-
-本软件所有数据均保存在用户本地，不涉及任何网络操作，请放心使用！
-如发现bug（或者希望改进的地方），欢迎在issue里面报告（尽可能详细描述，谢谢）
+All data are stored locally, no internet needed.
